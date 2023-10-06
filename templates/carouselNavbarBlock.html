@@ -1,0 +1,75 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+{% block carouselNavBar%}
+<div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <div class="d-block">
+        <img src="{{url_for('static', filename='/images/homeGalapagos.jpg')}}" class="w-100" alt="...">
+        <div class="carousel-caption" style="margin-top: 3%;">
+          <h5>Come and have some fun with Seamus the seal!</h5>
+          <p>Come witness the wonder of Seamus and his seal pals at our new seal attraction!</p>
+        </div>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <div class="d-block">
+        <img src="{{url_for('static', filename='/images/homeLeon.jpg')}}" class="w-100" alt="...">
+        <div class="carousel-caption">
+          <h5>Roar Along with Our Majestic Lions!</h5>
+          <p>Experience the thrill of the jungle as you watch our proud lion pride during our exciting lion event!</p>
+        </div>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <div class="d-block">
+        <img src="{{url_for('static', filename='/images/homeTiger.jpg')}}" class="w-100" alt="...">
+        <div class="carousel-caption" style="margin-top: 2%;">
+          <h5>Unleash Your Wild Side with Our Tigers!</h5>
+          <p>Join us for an exhilarating day in the tiger enclosure and witness the majestic stripes of our tigers up
+            close!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"><img
+        src="{{url_for('static', filename='/images/icons/back-Icon.png')}}"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"><img
+        src="{{url_for('static', filename='/images/icons/next-Icon.png')}}"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+<div class="middleNavBar-block">
+  <a href="#linkToSearchBar"><span class="middleNavBar-item" style="text-decoration: none;">Animals</span></a>
+  <span class="middleNavBar-separator"></span>
+  <a href="#linkToNews"><span class="middleNavBar-item">News</span></a>
+  <span class="middleNavBar-separator"></span>
+  <a href="#linkToZoo"><span class="middleNavBar-item">Zoo</span></a>
+  <span class="middleNavBar-separator"></span>
+  <a href="#linkToBuyTicket"><span class="middleNavBar-item">Buy Ticket</span></a>
+  <span class="middleNavBar-separator"></span>
+  <a href="#linkToFundraise"><span class="middleNavBar-item">Fundraise</span></a>
+  <span class="middleNavBar-separator"></span>
+  <div class="dropdown">
+    <button class="dropbtn">About us</button>
+    <div class="dropdown-content">
+      <a href="#testimonials">Reviews</a>
+      <a href="#linkToContactUs">Contact</a>
+      <a href="#linkToAboutSection">About</a>
+      <a href="#linkToJoinUs">Join us</a>
+    </div>
+  </div>
+  <img class="logo-map--style" src="{{url_for('static', filename='/images/icons/map-icon.png')}}">
+  <img id="toggle-calendar" class="logo-schedule--style"
+    src="{{url_for('static', filename='/images/icons/schedule-icon.png')}}">
+</div>
+<div id="mapModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <img class="modal-map" src="{{url_for('static', filename='images/zooMap.jpg')}}" alt="Map" style="width:100%">
+  </div>
+</div>
+{% endblock %}

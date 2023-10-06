@@ -1,0 +1,59 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+{% block header%}
+<div id="messageAlert" class="alert" style="display: none;"></div>
+<div id="message"></div>
+<input type="hidden" id="signupUrl" value="{{ url_for('signup') }}">
+<input type="hidden" id="loginUrl" value="{{ url_for('login') }}">
+<div class="menu-Block--DimensionPosition">
+  <nav class="navbar navbar-expand-lg ">
+    <div class="container">
+      <header>
+        <a href="{{ url_for('home') }}"><img class="logo--Size"
+            src="{{url_for('static', filename='/images/Logo/Logo.png')}}"></a>
+      </header>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
+        aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <ul class="navBar--Buttons">
+        <li class="nav-item--style">
+          <a class="nav-link" style="margin-left: 50%;" onclick="toggleLoginForm()">
+            {% if session['username'] %}
+            {{ session['username'] }}
+            {% else %}
+            <span class="login-signUp--textStyle">Log In/Sign up</span>
+            {% endif %}
+          </a>
+          <img class="nav-link login-icon" src="{{url_for('static', filename='/images/icons/login-icon.png')}}">
+          {% if session['username'] %}
+          <a href="{{ url_for('logout') }}"><img class="nav-link login-icon"
+              src="{{url_for('static', filename='/images/icons/SignOut-Icon.png')}}"></a>
+          {% else %}
+          <div class="login-form" id="loginFormContainer" style="display:none;">
+            <form id="loginForm" action="{{ url_for('login') }}" method="post" data-signup-url="{{ url_for('signup') }}"
+              data-login-url="{{ url_for('login') }}">
+              <div id="userNameContainer" style="display:none;">
+                <input type="text" id="userNameInput" name="userName" placeholder="Username" required>
+              </div>
+              <input type="email" name="email" placeholder="Email" required>
+              <input type="password" name="password" placeholder="Password" required>
+              <div id="confirmPasswordContainer" style="display:none;">
+                <input type="password" id="confirmPasswordInput" name="confirmPassword" placeholder="Confirm Password">
+              </div>
+              <button id="submitButton" type="submit">Log In</button>
+              <button type="button" id="toggleButton" onclick="toggleSignupForm()">Sign Up</button>
+            </form>
+          </div>
+          {% endif %}
+        </li>
+      </ul>
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    </div>
+</div>
+</nav>
+</div>
+{% endblock %}

@@ -1,0 +1,145 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+{% block testimonialsAndfeedBack %}
+<section id="testimonials">
+  <div class="testimonial-heading">
+    <span>Comments</span>
+    <h1>Clients Says</h1>
+  </div>
+  <div class="testimonial-box-container">
+    <div class="testimonial-box">
+      <div class="box-top">
+        <div class="pofile">
+          <div class="profile-img">
+            <img src="{{url_for('static', filename='/images/profilePics/Emily Thompson.jpg')}}" />
+          </div>
+          <div class="name-user">
+            <strong>Emily Thompson</strong>
+            <span>@WildlifeFan87</span>
+          </div>
+        </div>
+        <div class="reviews">
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+        </div>
+      </div>
+      <div class="client-comment">
+        <p>I had a fantastic day at the zoo. The variety of animals is truly astounding, from the mighty lions and
+          tigers to the graceful flamingos.
+          Each exhibit was well-maintained and informative, providing not only a thrilling experience but also a great
+          opportunity for learning.
+          The staff was attentive and friendly, ready to answer any questions. I highly recommend this zoo to anyone
+          seeking a fun, educational outing.
+          I can't wait for my next visit. Will definitely be back soon."</p>
+      </div>
+    </div>
+    <div class="testimonial-box">
+      <div class="box-top">
+        <div class="pofile">
+          <div class="profile-img">
+            <img src="{{url_for('static', filename='/images/profilePics/Michael Roberts.jpg')}}" />
+          </div>
+          <div class="name-user">
+            <strong>Michael Roberts</strong>
+            <span>@NatureLover2023</span>
+          </div>
+        </div>
+        <div class="reviews">
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="far fa-star"></i>
+          <i class="far fa-star"></i>
+        </div>
+      </div>
+      <div class="client-comment">
+        <p>The zoo is a really nice place to spend the day with family.
+          The kids absolutely loved the tiger exhibit! It was a joy watching them marvel at the majestic animals.
+          I appreciated the safety measures in place, ensuring a worry-free experience for us parents.
+          The facilities were clean and well-kept. If I had one suggestion, it would be to organize more interactive
+          activities for children.
+          Overall, a good experience.</p>
+      </div>
+    </div>
+    <div class="testimonial-box">
+      <div class="box-top">
+        <div class="pofile">
+          <div class="profile-img">
+            <img src="{{url_for('static', filename='/images/profilePics/Olivia Jenkins.webp')}}" />
+          </div>
+          <div class="name-user">
+            <strong>Olivia Jenkins</strong>
+            <span>@AnimalAdmirer</span>
+          </div>
+        </div>
+        <div class="reviews">
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="far fa-star"></i>
+          <i class="far fa-star"></i>
+          <i class="far fa-star"></i>
+        </div>
+      </div>
+      <div class="client-comment">
+        <p>I enjoyed my visit to the zoo but I wish there were more food options.
+          The animal exhibits were great, especially the birds of prey section.
+          I learned a lot and the animals seemed well-cared for. However, the food court lacked variety.
+          The food was okay but a few more choices would be appreciated. The gift shop, on the other hand, had a lot of
+          fun souvenirs.
+          Overall, a nice day out.</p>
+      </div>
+    </div>
+    <div class="testimonial-box">
+      <div class="box-top">
+        <div class="pofile">
+          <div class="profile-img">
+            <img src="{{url_for('static', filename='/images/profilePics/Daniel Harrison.jpg')}}" />
+          </div>
+          <div class="name-user">
+            <strong>Daniel Harrison</strong>
+            <span>@SpeciesSupporter</span>
+          </div>
+        </div>
+        <div class="reviews">
+          <i class="fas fa-star"></i>
+          <i class="far fa-star"></i>
+          <i class="far fa-star"></i>
+          <i class="far fa-star"></i>
+          <i class="far fa-star"></i>
+        </div>
+      </div>
+      <div class="client-comment">
+        <p>The zoo experience was decent but could definitely improve in certain areas.
+          The animal exhibits were a delight to see but the signage around the zoo was a bit confusing at times.
+          I had trouble navigating to certain areas. Also, the bathroom facilities could use an upgrade. On the plus
+          side,
+          the zoo staff was very helpful whenever I had questions.
+          With some improvements, this could be a top-notch zoo.</p>
+      </div>
+    </div>
+    <div id="linkToContactUs" class="content-container">
+      <div class="contact-form--style">
+        <div class="container contact-form">
+          <h1 class="text-center mb-4">
+            Contact Us
+            <span class="tooltip">
+              <i class="far fa-star"></i>
+              <span class="tooltip-message"></span>
+            </span>
+          </h1>
+          <form method="post" action="{{ url_for('sendEmail') }}">
+            <label for="fname">Name</label>
+            <input type="text" id="fname" name="firstname" placeholder="Your name..">
+            <label for="lname">Mail</label>
+            <input type="email" id="lname" name="lastname" placeholder="johnDoe@example.com" required>
+            <label for="country">Country:</label>
+            <select id="country" name="country"></select>
+            <label for="subject">Subject</label>
+            <textarea id="subject" name="subject" placeholder="Write something.." style="height:200px"></textarea>
+            <input type="submit" value="Submit">
+          </form>
+        </div>
+      </div>
+      {% endblock %}

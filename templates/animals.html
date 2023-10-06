@@ -1,0 +1,37 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+{% block animals %}
+<div id="linkToSearchBar" class="search-section">
+  <div class="search-container">
+    <form class="search-form" action="{{ url_for('home') }}" method="GET">
+      <input type="text" class="search-input" name="search" id="search" placeholder="Search for an animal">
+      <button class="search-btn" type="submit">Search</button>
+    </form>
+  </div>
+</div>
+{% include 'searchResults.html' %}
+<h1 class="display-1 map-title--Style">Just want to see our animals?</h1>
+<div class="animalIcons--container">
+  <div class="icon-wrapper">
+    <img class="animal-icon--dimensions" src="{{url_for('static', filename='/images/icons/mammal-icon.png')}}"
+      onclick="openGallery('mammals')">
+    <h1 class="display-6 map-title--Style">Mammals</h1>
+  </div>
+  <div class="icon-wrapper">
+    <img class="animal-icon--dimensions" src="{{url_for('static', filename='/images/icons/reptile-icon.png')}}"
+      onclick="openGallery('reptiles')">
+    <h1 class="display-6 map-title--Style">Reptiles</h1>
+  </div>
+  <div class="icon-wrapper">
+    <img class="animal-icon--dimensions" src="{{url_for('static', filename='/images/icons/amphibian-icon.png')}}"
+      onclick="openGallery('amphibians')">
+    <h1 class="display-6 map-title--Style">Amphibians</h1>
+  </div>
+  <div class="icon-wrapper">
+    <img class="animal-icon--dimensions" src="{{url_for('static', filename='/images/icons/bird-icon.png')}}"
+      onclick="openGallery('birds')">
+    <h1 class="display-6 map-title--Style">Birds</h1>
+  </div>
+</div>
+<div id="gallery" class="gallery">
+</div>
+{% endblock %}

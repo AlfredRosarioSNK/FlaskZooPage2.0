@@ -1,0 +1,29 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+{% block buy %}
+<div id="linkToBuyTicket" class="image-container">
+  <img src="{{url_for('static', filename='/images/zooTicketsPic.png')}}">
+  <div class="buyBlock--imageText">
+    <p>Uncover the wonders of the animal kingdom! A thrilling adventure awaits you and your loved ones at our zoo. With
+      exhibits from every corner of the globe, our zoo is the perfect place to connect with nature and learn about the
+      magnificent creatures we share this world with. Don't miss out on this unforgettable experience</p>
+    <form class="paypal-form" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+      <input type="hidden" name="cmd" value="_s-xclick">
+      <input type="hidden" name="hosted_button_id" value="L8XZ56VNJAG2G">
+      <table>
+        <tr>
+          <td><input type="hidden" name="on0" value="ticket">ticket</td>
+        </tr>
+        <tr>
+          <td><select name="os0">
+              <option value="Buy a zoo ticket">Buy a zoo ticket $0.10 USD</option>
+            </select></td>
+        </tr>
+      </table>
+      <input type="hidden" name="currency_code" value="USD">
+      <input style="margin-right: 30%;" type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_SM.gif"
+        border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+      <img alt="" border="0" src="https://www.paypalobjects.com/es_XC/i/scr/pixel.gif" width="1" height="1">
+    </form>
+  </div>
+</div>
+{% endblock %}
