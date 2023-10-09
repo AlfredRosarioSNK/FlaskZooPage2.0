@@ -120,6 +120,7 @@
       </div>
     </div>
     <div id="linkToContactUs" class="content-container">
+      {% if session['username'] is defined %}
       <div class="contact-form--style">
         <div class="container contact-form">
           <h1 class="text-center mb-4">
@@ -141,5 +142,9 @@
             <input type="submit" value="Submit">
           </form>
         </div>
+        {% else %}
+        <p>test with user not logged in</p>
+        {% endif %}
       </div>
+  
       {% endblock %}
