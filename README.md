@@ -17,15 +17,15 @@
 - [Anaconda](https://www.anaconda.com/)
 - A code editor (e.g., [Visual Studio Code](https://code.visualstudio.com/))
 
-## Step 1: Installing Git
+# Step 1: Installing Git
 1. Download and install Git from [here](https://git-scm.com/downloads).
 2. Follow the setup instructions provided on the Git website to configure it according to your preferences.
 
-## Step 2: Installing Anaconda
+# Step 2: Installing Anaconda
 1. Download and install Anaconda from [here](https://www.anaconda.com/).
 2. Follow the installation instructions and set up Anaconda on your system as per the documentation.
 
-## Step 3: Clone the Repository
+# Step 3: Clone the Repository
 1. Open your terminal or command prompt.
 2. Navigate to the directory where you want to clone the repository.
 3. Run the following command to clone the repository to your local machine:
