@@ -39,12 +39,12 @@
  2. Open Anaconda and navigate to the project directory using the terminal. You can do this by copying the path from the file explorer and using the cd command, like this:
     
     ```shell
- cd C:\Users\YourUsername\Path\To\ZooWebPage
+    cd C:\Users\YourUsername\Path\To\ZooWebPage
  
  3. Now, create a new Anaconda environment using the provided environment.yml file to ensure you have the necessary dependencies:
     
     ```shell
- conda env create -f environment.yml
+    conda env create -f environment.yml
 
 # Step 5: Run the Project
 
@@ -52,7 +52,7 @@
 2. Run the following command to start the project:
     
     ```shell
-python index.py
+    python index.py
 
 Now, your project should be up and running without any issues.
 
