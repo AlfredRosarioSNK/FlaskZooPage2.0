@@ -60,21 +60,9 @@ If you encounter any problems during setup or have questions, please refer to th
 
 Feel free to tailor this tutorial to your specific needs and project details.
 
-# Providing Access to Your MongoDB Atlas Database
+# Providing Access to the MongoDB Atlas Database
 
-## Step 1: Set Up MongoDB Atlas
-
-1. Sign in to your MongoDB Atlas account.
-
-2. Create a new project or select an existing one.
-
-3. Create a cluster within your project if you haven't already.
-
-4. In the cluster settings, go to "Database Access" to set up a new database user. This user will have access to your database. Ensure you select a strong username and password.
-
-5. Go to "Network Access" in the cluster settings and add the IP addresses of the users who should have access. You can also allow access from anywhere ("0.0.0.0/0"), but it's not recommended for security reasons.
-
-## Step 2: Configure Your .env File
+## Step 1: Configure Your .env File
 
 1. Create a `.env` file in the root of your project and store your MongoDB Atlas connection string in it. Your `.env` file should look like this:
 
