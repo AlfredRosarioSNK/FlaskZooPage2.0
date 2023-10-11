@@ -1,36 +1,61 @@
-# Welcome to my project, here is a little tutorial to teach you how to start.
+# Welcome to my project, here is a little tutorial to teach you how to setup all
 
-#Requisites
-<ul>
-<li>Git</li>  
-<li>Anaconda</li>
-</ul>
+# First of all, these are the technologies used in this project.
 
-***git is the most famous version controller software, therefore it is the one we will be using in this tutorial.***
+- HTML
+- CSS
+- JavaScript
+- Bootstrap
+- Python
+- Anaconda
+- MongoDB
+- Flask
 
-first of all you need to download and install git, this link will help: ***https://git-scm.com/downloads***
+**Before we begin, make sure you have the following tools installed:**
 
-Then the next thing is to do git getting started and configure it to your liking, for now then we will leave git aside and download the following software ***Anaconda***
+- [Git](https://git-scm.com/downloads)
+- [Anaconda](https://www.anaconda.com/)
+- A code editor (e.g., [Visual Studio Code](https://code.visualstudio.com/))
 
-Anaconda is a free and open distribution of the Python and R languages, used in data science and machine learning. This is the environment manager for python that we will be using, I have a link for you here: ***https://www.anaconda.com/***
+## Step 1: Installing Git
+1. Download and install Git from [here](https://git-scm.com/downloads).
+2. Follow the setup instructions provided on the Git website to configure it according to your preferences.
 
-Follow the documentation on the page and the steps to follow to configure it correctly, then you can continue with the tutorial.
+## Step 2: Installing Anaconda
+1. Download and install Anaconda from [here](https://www.anaconda.com/).
+2. Follow the installation instructions and set up Anaconda on your system as per the documentation.
 
-Continuing with the tutorial then, I suppose you already have your code editor installed, if you don't have it you can go download and install it since as you can imagine it is very necessary, for example I use visual studio code: ***https://code.visualstudio.com/***
+## Step 3: Clone the Repository
+1. Open your terminal or command prompt.
+2. Navigate to the directory where you want to clone the repository.
+3. Run the following command to clone the repository to your local machine:
+   ```shell
+   git clone https://github.com/AlfredRosarioSNK/ZooWebPage
 
 
-With everything you need installed, open git and go to the directory where you want to put the clone repository and type the following at the command line:
+# Step 4: Configure the Python Environment
+ 1. Once the repository is cloned, you'll find a file called environment.yml in the project directory. This file defines the project's Python environment and required libraries.
 
-***git clone https://github.com/AlfredRosarioSNK/ZooWebPage***
+ 2. Open Anaconda and navigate to the project directory using the terminal. You can do this by copying the path from the file explorer and using the cd command, like this:
+    
+    ```shell
+ cd C:\Users\YourUsername\Path\To\ZooWebPage
+ 
+ 3. Now, create a new Anaconda environment using the provided environment.yml file to ensure you have the necessary dependencies:
+    
+    ```shell
+ conda env create -f environment.yml
 
-This command will clone the repository to the path you specified ***(in my case in the desktop, so for example I wrote "cd desktop" when I open git and then the command up there)***, the project has a file called environment.yml, this file clone the environment and also install the necessary libraries so you're halfway there.
+# Step 5: Run the Project
 
-Cool then! Once you have done this, the clone repository should already be on your computer so open conda and go to the path of your project, you can do this opening the folder that contains the repository, copying the path in the file explorer and paste it in anaconda with the "cd" command, like this:
+1. After successfully creating the environment, you can run the project. Make sure you are still in the project directory in your terminal.
+2. Run the following command to start the project:
+    
+    ```shell
+python index.py
 
-cd C:\Users\Alfred\Desktop\Flask zoo page
+Now, your project should be up and running without any issues.
 
-Cool, so now if you write the following command
+If you encounter any problems during setup or have questions, please refer to the documentation or reach out for help.
 
-***Python index.py***
-
-This should initialize the project without any problem.
+Feel free to tailor this tutorial to your specific needs and project details.
