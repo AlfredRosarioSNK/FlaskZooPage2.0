@@ -119,6 +119,8 @@
           With some improvements, this could be a top-notch zoo.</p>
       </div>
     </div>
+    </div>
+    </section>
     <div id="linkToContactUs" class="content-container">
       {% if session['username'] is defined %}
       <div class="contact-form--style">
@@ -143,7 +145,10 @@
           </form>
         </div>
         {% else %}
-        <p>test with user not logged in</p>
+        <div class="notLoggedFeedBackImageStyles">
+        <img src="{{url_for('static', filename='/images/FeedBack.webp')}}" />
+        <p class="innerFeedBackText">You must be logged to send a Feedback!</p>
+        </div>
         {% endif %}
       </div>
   

@@ -1,0 +1,79 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js"></script>
+  </head>
+  <body>
+    <div class="calendar-buttons--items">
+      <div id="calendar"></div>
+      <form id="schedule-form">
+        <label for="date-entry">Select a date entry</label>
+        <input type="date" id="date-entry" name="date">
+        <button id="schedule-entry" type="button">Schedule entry</button>
+      </form>
+      <h1> WELCOME
+        {% if session['username'] %}
+        {{ session['username'] }}
+        {% else %}
+        {% endif %}
+      </h1>
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        var calendarEl = document.getElementById("calendar");
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+          initialView: "dayGridMonth",
+          events: {
+            url: '/api/getDates',
+            method: 'GET',
+            extraParams: {
+              user: "{{ session['username'] }}"  
+            },
+            failure: function() {
+              alert('Error fetching events');
+            }
+          },
+          eventClick: function(info) {
+            // event click
+          },
+        });
+        calendar.render();
+
+        document.getElementById("schedule-entry").addEventListener("click", function() {
+          var dateEntry = document.getElementById("date-entry").value;
+          if (dateEntry) {
+            calendar.addEvent({
+              title: "Zoo Visit",
+              start: dateEntry,
+              allDay: true,
+              editable: true,
+              color: "green",
+            });
+
+            var scheduleForm = document.getElementById("schedule-form");
+            var formData = new FormData(scheduleForm);
+
+            fetch('/api/addDate', {
+              method: 'POST',
+              body: formData
+            })
+              .then(response => response.json())
+              .then(data => {
+                if (data.status === 'success') {
+                  alert(data.message);
+                  calendar.refetchEvents();
+                } else {
+                  alert('Error al agregar la fecha.');
+                }
+              })
+              .catch(error => {
+                console.error('Error:', error);
+              });
+          } else {
+            alert("Seleccione una fecha para agendar una visita.");
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

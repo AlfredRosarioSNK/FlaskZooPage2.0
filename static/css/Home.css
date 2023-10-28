@@ -1308,3 +1308,52 @@ html {
 .lion-event--image {
   border-radius: 50%;
 }
+
+.notLoggedFeedBackImageStyles {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 43vh;
+}
+
+.notLoggedFeedBackImageStyles img {
+  position:relative;
+  max-width: 57%;
+  max-height: 100%;
+  filter: brightness(30%);
+}
+
+.innerFeedBackText{
+  position: absolute;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.7); 
+  padding: 10px;
+  border-radius: 5px;
+}
+.scheduleEntry-Hyperlink--Item{
+text-decoration: underline; 
+}
+.scheduleEntry-Hyperlink--Item:hover{
+ color: #ac611e;
+  }
+
+  /* scheduleP */
+.panel-top {
+  background-color: #E0E0E0; /* Cambia el color de fondo según tus preferencias */
+  height: 20%; /* Ajusta la altura según tus necesidades */
+  text-align: center; /* Centra el contenido horizontalmente */
+}
+
+/* Estilo para el panel central */
+.panel-center {
+  background-color: #FFFFFF; /* Cambia el color de fondo según tus preferencias */
+  height: 60%; /* Ajusta la altura según tus necesidades */
+  text-align: center; /* Centra el contenido horizontalmente */
+}
+
+/* Estilo para el panel inferior */
+.panel-bottom {
+  background-color: #E0E0E0; /* Cambia el color de fondo según tus preferencias */
+  height: 20%; /* Ajusta la altura según tus necesidades */
+  text-align: center; /* Centra el contenido horizontalmente */
+}

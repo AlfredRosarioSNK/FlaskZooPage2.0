@@ -147,7 +147,9 @@ def sendEmail():
 
     return "Message sent!"
 
-
+@app.route("/scheduleEntry")
+def schedulePage():
+    return render_template('schedulePage.html')
 class User:
     def __init__(self, userName, email, password):
         self.email = email
@@ -200,6 +202,45 @@ def logout():
     session.pop('username', None)
     return redirect(url_for('home'))
 
+datesCollection = db['savedDatesData']
+@app.route('/api/addDate', methods=['POST'])
+def addSavedDate():
+    if 'username' in session:
+        user_id = session['username']  # Obtén el ID del usuario autenticado
+        date = request.form['date']
+        description = request.form.get('description', '')  # Opcional
+        # Crea un nuevo objeto que representa la fecha agendada
+        newDateAdded = {
+            "user_id": user_id,
+            "fecha": date,
+            "descripcion": description
+        }
+        # Inserta la fecha agendada en la base de datos
+        # Asegúrate de validar y procesar los datos adecuadamente
+        datesCollection.insert_one(newDateAdded)
+        return jsonify({'status': 'success', 'message': 'date added successfully.'})
+    else:
+        return jsonify({'status': 'fail', 'message': 'Usuario no autenticado.'})
+
+
+@app.route('/api/getDates', methods=['GET'])
+def getDates():
+    if 'username' in session:
+        user_id = session['username']  # Obtén el ID del usuario autenticado
+        # Recupera las fechas agendadas del usuario desde la base de datos
+        dates = datesCollection.find({"user_id": user_id})
+        events = []
+        for date in dates:
+            events.append({
+                'title': 'Zoo Visit',
+                'start': date['fecha'],
+                'allDay': True,
+                'editable': True,
+                'color': 'green',
+            })
+        return jsonify(events)
+    else:
+        return jsonify([])  # No hay usuario autenticado, devuelve una lista vacía
 
 googleCredentialsPath = os.getenv('GOOGLE_APPLICATION_CREDENTIALS')
 creds = service_account.Credentials.from_service_account_file(
