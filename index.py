@@ -203,44 +203,55 @@ def logout():
     return redirect(url_for('home'))
 
 datesCollection = db['savedDatesData']
+
 @app.route('/api/addDate', methods=['POST'])
 def addSavedDate():
     if 'username' in session:
-        user_id = session['username']  # Obtén el ID del usuario autenticado
+        user_id = session['username']
         date = request.form['date']
-        description = request.form.get('description', '')  # Opcional
-        # Crea un nuevo objeto que representa la fecha agendada
+        name = request.form['name-entry']
+        lastName = request.form['last-name-entry']
+        visitors = request.form['visitorsCuantity']
+        guided_tour = request.form.get('guidedTourConfirmation', 'Have fun!')
         newDateAdded = {
             "user_id": user_id,
             "fecha": date,
-            "descripcion": description
+            "name": name,
+            "lastName": lastName,
+            "visitors": visitors,  
+            "guidedTour": guided_tour  
         }
-        # Inserta la fecha agendada en la base de datos
-        # Asegúrate de validar y procesar los datos adecuadamente
         datesCollection.insert_one(newDateAdded)
-        return jsonify({'status': 'success', 'message': 'date added successfully.'})
+        return jsonify({'status': 'success', 'message': 'Date added successfully.'})
     else:
         return jsonify({'status': 'fail', 'message': 'Usuario no autenticado.'})
-
 
 @app.route('/api/getDates', methods=['GET'])
 def getDates():
     if 'username' in session:
-        user_id = session['username']  # Obtén el ID del usuario autenticado
-        # Recupera las fechas agendadas del usuario desde la base de datos
+        user_id = session['username']
         dates = datesCollection.find({"user_id": user_id})
         events = []
         for date in dates:
+            name = date.get('name', '')
+            last_name = date.get('lastName', '')
+            title = f"{name} {last_name}".strip() if name or last_name else "Zoo Visit"
+            event_id = str(date.get('_id', ''))
+
             events.append({
-                'title': 'Zoo Visit',
+                'id': event_id,
+                'title': title,
                 'start': date['fecha'],
-                'allDay': True,
-                'editable': True,
                 'color': 'green',
+                'extendedProps': {
+                    'visitors': date.get('visitors', 'Not available'), 
+                    'guidedTour': date.get('guidedTour', 'Not available')  
+                }
             })
         return jsonify(events)
     else:
-        return jsonify([])  # No hay usuario autenticado, devuelve una lista vacía
+        return jsonify([])
+
 
 googleCredentialsPath = os.getenv('GOOGLE_APPLICATION_CREDENTIALS')
 creds = service_account.Credentials.from_service_account_file(

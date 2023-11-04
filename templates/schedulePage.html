@@ -1,79 +1,169 @@
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/schedulePage.css') }}">
   </head>
   <body>
-    <div class="calendar-buttons--items">
-      <div id="calendar"></div>
-      <form id="schedule-form">
-        <label for="date-entry">Select a date entry</label>
-        <input type="date" id="date-entry" name="date">
-        <button id="schedule-entry" type="button">Schedule entry</button>
-      </form>
-      <h1> WELCOME
-        {% if session['username'] %}
+    <div class="panel-top"></div>
+    <h1>WELCOME
+      {% if session['username'] %}
         {{ session['username'] }}
-        {% else %}
-        {% endif %}
-      </h1>
+      {% endif %}
+    </h1>
+    <div id="calendar-container">
+      <div id="calendar"></div>
+    </div>
+    <div class="scheduleForm--container">
+      <form id="schedule-form">
+        <label for="date-entry" class="form-label">Select a date entry</label>
+        <input type="date" id="date-entry" name="date" class="form-input">
+        <label for="name-entry" class="form-label">Name</label>
+        <input type="text" placeholder="Name" id="name-entry" name="name-entry" class="form-input">
+        <label for="last-name-entry" class="form-label">Last name</label>
+        <input type="text" placeholder="Last name" id="last-name-entry" name="last-name-entry" class="form-input">
+        <label for="visitorsCuantity" class="form-label">Number of visitors</label>
+        <select id="visitorsCuantity" name="visitorsCuantity" class="form-input">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+        <label for="guidedTourConfirmation" class="form-label">Want to participate in the guided tour?</label>
+        <input type="checkbox" id="guidedTourConfirmation" name="guidedTourConfirmation" class="form-checkbox">
+        <button id="schedule-entry" type="button" class="form-button">Reserve an entry</button>
+        <button id="cancel-entry" type="button" class="form-button form-button--cancel">Cancel</button>
+      </form>
+    </div>
+    <h1 id="tickets-heading" style="display: none;">Your Tickets:</h1>
+    <div id="tickets-container">
     </div>
     <script>
-      document.addEventListener("DOMContentLoaded", function() {
-        var calendarEl = document.getElementById("calendar");
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-          initialView: "dayGridMonth",
-          events: {
-            url: '/api/getDates',
-            method: 'GET',
-            extraParams: {
-              user: "{{ session['username'] }}"  
-            },
-            failure: function() {
-              alert('Error fetching events');
-            }
-          },
-          eventClick: function(info) {
-            // event click
-          },
-        });
-        calendar.render();
-
-        document.getElementById("schedule-entry").addEventListener("click", function() {
-          var dateEntry = document.getElementById("date-entry").value;
-          if (dateEntry) {
-            calendar.addEvent({
-              title: "Zoo Visit",
-              start: dateEntry,
-              allDay: true,
-              editable: true,
-              color: "green",
-            });
-
-            var scheduleForm = document.getElementById("schedule-form");
-            var formData = new FormData(scheduleForm);
-
-            fetch('/api/addDate', {
-              method: 'POST',
-              body: formData
-            })
-              .then(response => response.json())
-              .then(data => {
-                if (data.status === 'success') {
-                  alert(data.message);
-                  calendar.refetchEvents();
-                } else {
-                  alert('Error al agregar la fecha.');
-                }
-              })
-              .catch(error => {
-                console.error('Error:', error);
+      var calendarEl = document.getElementById("calendar");
+      var calendar = new FullCalendar.Calendar(calendarEl, {
+        eventClick: function(info) {
+        },
+        eventContent: function(info) {
+          var eventDate = info.event.start;
+          var eventName = info.event.title;
+          return {
+            html: '<div class="event-content"><span class="event-title">' + eventName + '</span><br>' + eventDate.toLocaleDateString() + '</div>'
+          };
+        },
+      });
+      calendar.render();
+      function loadTickets() {
+        fetch('/api/getDates')
+          .then(response => response.json())
+          .then(data => {
+            var ticketsContainer = document.getElementById("tickets-container");
+            ticketsContainer.innerHTML = "";
+            if (data.length > 0) {
+              document.getElementById("tickets-heading").style.display = "block";
+              data.forEach(function(ticket) {
+                var ticketElement = document.createElement("div");
+                ticketElement.className = "ticket";
+                ticketElement.innerHTML = `
+                  <div class="ticket">
+  <div class="stub">
+    <div class="top">
+      <span class="admit">Alfred's Zoo</span>
+      <span class="line"></span>
+      <span class="num">
+        ${ticket.title}
+      </span>
+    </div>
+    <div class="number">🦁</div>
+    <div class="invite">
+      ${ticket.extendedProps.guidedTour}
+    </div>
+  </div>
+  <div class="check">
+    <div class="big">
+      Zoo <br> Entry
+    </div>
+    <div class="numberOfVisitors">Visitors: ${ticket.extendedProps.visitors}</div>
+    <div class="info">
+      <section>
+        <div class="title">Date</div>
+        <div>${ticket.start}</div>
+      </section>
+      <section>
+        <div class="title">Ticket ID: ${ticket.id}</div>
+      </section>
+    </div>
+  </div>
+</div>
+                `;
+                ticketsContainer.appendChild(ticketElement);
               });
-          } else {
-            alert("Seleccione una fecha para agendar una visita.");
-          }
+            }
+          })
+          .catch(error => {
+            console.error('Error loading tickets:', error);
+          });
+      }
+      loadTickets();
+      document.getElementById("schedule-entry").addEventListener("click", function() {
+    var dateEntry = document.getElementById("date-entry").value;
+    var nameEntry = document.getElementById("name-entry").value;
+    var lastNameEntry = document.getElementById("last-name-entry").value;
+    var numberOfVisitors = document.getElementById("visitorsCuantity").value;
+    var guidedTourConfirmationValue = document.getElementById("guidedTourConfirmation").checked ? 'Tour Included!' : 'Have fun!';
+    if (dateEntry) {
+        var formData = new FormData();
+        formData.append("date", dateEntry);
+        formData.append("name-entry", nameEntry);
+        formData.append("last-name-entry", lastNameEntry);
+        formData.append("visitorsCuantity", numberOfVisitors);
+        formData.append("guidedTourConfirmation", guidedTourConfirmationValue);
+        fetch('/api/addDate', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                alert(data.message);
+                document.getElementById("schedule-form").reset();
+                calendar.addEvent({
+                    title: nameEntry + " " + lastNameEntry,
+                    start: dateEntry,
+                });    
+                loadTickets(); 
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    } else {
+        alert("Please select a date to schedule a visit.");
+    }
+});
+function loadEventsToCalendar() {
+  fetch('/api/getDates')
+    .then(response => response.json())
+    .then(data => {
+
+      data.forEach(function(eventData) {
+        calendar.addEvent({
+          title: eventData.title, 
+          start: eventData.start, 
         });
       });
+    })
+    .catch(error => {
+      console.error('Error loading events:', error);
+    });
+}
+document.addEventListener('DOMContentLoaded', function() {
+  loadEventsToCalendar();
+});
     </script>
+    <div class="panel-bottom"></div>
   </body>
 </html>
