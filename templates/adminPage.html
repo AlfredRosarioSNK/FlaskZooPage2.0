@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+  }
+  .admin-dashboard {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  .user-list {
+    list-style: none;
+    padding: 0;
+  }
+  .user-list li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  .user-list li:last-child {
+    border-bottom: none;
+  }
+  .user-list h3 {
+    margin: 0;
+    color: #333;
+  }
+</style>
+</head>
+<body>
+  <div class="admin-dashboard">
+    <h1>Admin Dashboard</h1>
+    {% if session['adminUsername'] %}
+      <p>Welcome back, {{ session['adminUsername'] }}!</p>
+    {% else %}
+      <p>You are not logged in as an admin.</p>
+    {% endif %}
+    <ul class="user-list">
+  </ul>
+</div>
+
+<script>
+
+</script>
+
+</body>
+</html>

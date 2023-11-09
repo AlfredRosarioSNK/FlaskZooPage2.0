@@ -15,6 +15,7 @@
     <div id="calendar-container">
       <div id="calendar"></div>
     </div>
+    <div class="forms-container">
     <div class="scheduleForm--container">
       <form id="schedule-form">
         <label for="date-entry" class="form-label">Select a date entry</label>
@@ -34,9 +35,18 @@
         <label for="guidedTourConfirmation" class="form-label">Want to participate in the guided tour?</label>
         <input type="checkbox" id="guidedTourConfirmation" name="guidedTourConfirmation" class="form-checkbox">
         <button id="schedule-entry" type="button" class="form-button">Reserve an entry</button>
-        <button id="cancel-entry" type="button" class="form-button form-button--cancel">Cancel</button>
       </form>
     </div>
+<div id="confirmation-form-container" style="display:none;">
+  <form id="confirmation-form">
+    <div id="reservation-details">
+    </div>
+    <button id="proceed-to-payment" type="button" class="form-button">Proceder al Pago</button>
+    <button id="cancel-reservation" type="button" class="form-button">Cancelar</button>
+  </form>
+</div>
+</div>
+
     <h1 id="tickets-heading" style="display: none;">Your Tickets:</h1>
     <div id="tickets-container">
     </div>
@@ -133,6 +143,13 @@
                     start: dateEntry,
                 });    
                 loadTickets(); 
+                document.getElementById("confirmation-form-container").style.display = "block";
+                document.getElementById("reservation-details").innerHTML = `
+                    <p>Fecha: ${dateEntry}</p>
+                    <p>Nombre: ${nameEntry} ${lastNameEntry}</p>
+                    <p>Número de visitantes: ${numberOfVisitors}</p>
+                    <p>Tour guiado: ${guidedTourConfirmationValue}</p>
+                `;
             } else {
                 alert(data.message);
             }
@@ -162,6 +179,9 @@ function loadEventsToCalendar() {
 }
 document.addEventListener('DOMContentLoaded', function() {
   loadEventsToCalendar();
+});
+document.getElementById("proceed-to-payment").addEventListener("click", function() {
+    window.location.href = '/paymentProcessing'; 
 });
     </script>
     <div class="panel-bottom"></div>

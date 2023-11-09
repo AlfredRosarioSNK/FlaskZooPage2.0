@@ -17,18 +17,33 @@
     height: 20%; 
     text-align: center; 
 }
+  .scheduleForm--container,
+  #confirmation-form-container {
+      flex: 1; 
+      margin: 10px; 
+      padding: 20px; 
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      text-align: center;
+  }
 
-  /* Establece el tamaño máximo del formulario */
-.scheduleForm--container {
-  max-width: 504px;
-  margin: 0 auto;
-  padding: 55px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  text-align: center;
+#confirmation-form-container {
+  background-color: #f7f7f7;
+  border: 1px solid #ddd; 
+  padding: 20px;
+  border-radius: 8px; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
 }
 
-/* Haz que el formulario sea más pequeño y más legible en dispositivos móviles */
+#confirmation-form-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+#confirmation-form-container button {
+  margin-top: 10px;
+}
+
 .form-input,
 .form-checkbox,
 .form-button,
@@ -38,10 +53,9 @@
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  margin: 10px 0; /* Espacio entre elementos */
+  margin: 10px 0; 
 }
 
-/* Estilos de los botones */
 .form-button,
 .form-button--cancel {
   background-color: #3498db;
@@ -51,25 +65,22 @@
   padding: 10px 20px;
   cursor: pointer;
   font-weight: bold;
-  margin-right: 10px; /* Espacio entre los botones */
+  margin-right: 10px; 
 }
 
 .form-button--cancel {
   background-color: #e74c3c;
 }
 
-/* Centra los botones */
 .form-button:hover,
 .form-button--cancel:hover {
   background-color: #2980b9;
 }
 
-/* Estilos para el input tipo número */
 .form-input[type="number"] {
   width: 60px;
-  margin-right: 10px; /* Espacio entre el campo de número y los botones */
+  margin-right: 10px; 
 }
-
  
 #calendar {
   font-family: 'Poppins', sans-serif;
@@ -77,8 +88,8 @@
   border: 1px solid #ddd;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 50%; /* Ajusta este valor según prefieras */
-  margin: 0 auto; /* Centra el calendario */
+  width: 50%; 
+  margin: 0 auto; 
 }
 
   .fc-header-toolbar {
@@ -117,16 +128,16 @@
     border: 1px solid #ddd;
     border-radius: 0 0 8px 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    max-height: 100%; /* Altura máxima para evitar la barra de desplazamiento vertical */
-    overflow-y: hidden; /* Oculta la barra de desplazamiento vertical */
+    max-height: 100%; 
+    overflow-y: hidden; 
   }
   
   #calendar-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 70vh; /* Ajustar la altura vertical al contenido */
-     padding: 10px 0px 10px 0px; /*superior derecha inferior izquierda */
+    min-height: 70vh; 
+     padding: 10px 0px 10px 0px; 
   }
 
   .ticket {
@@ -214,7 +225,6 @@
       }
     }
   }
-  
   .check {
     background: #fff;
     height: 250px;
@@ -242,7 +252,6 @@
       border-right: 20px solid #fff;
       width: 0;
     }
-  
     .big {
       font-size: 80px;
       font-weight: 900;
@@ -280,4 +289,22 @@
       }
     }
   }
-  
+  .forms-container {
+    display: flex;
+    justify-content: center; 
+    align-items: flex-start; 
+    gap: 20px; 
+    margin: 0 auto;
+    padding: 20px;
+    max-width: 1100px; 
+}
+  .panel-top {
+    background-color: #E0E0E0; 
+    height: 20%; 
+    text-align: center; 
+  }
+  .panel-bottom {
+    background-color: #E0E0E0;
+    height: 20%;
+    text-align: center; 
+  }
