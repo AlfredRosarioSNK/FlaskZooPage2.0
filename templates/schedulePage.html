@@ -11,6 +11,9 @@
       {% if session['username'] %}
         {{ session['username'] }}
       {% endif %}
+      <a href="/">
+        <img src="{{ url_for('static', filename='images/icons/backButton-icon.png') }}" alt="back" style="height:40px;">   
+      </a> 
     </h1>
     <div id="calendar-container">
       <div id="calendar"></div>
@@ -19,7 +22,7 @@
     <div class="scheduleForm--container">
       <form id="schedule-form">
         <label for="date-entry" class="form-label">Select a date entry</label>
-        <input type="date" id="date-entry" name="date" class="form-input">
+        <input type="date" id="date-entry" name="date" class="form-input" min="2023-11-14">
         <label for="name-entry" class="form-label">Name</label>
         <input type="text" placeholder="Name" id="name-entry" name="name-entry" class="form-input">
         <label for="last-name-entry" class="form-label">Last name</label>
@@ -46,144 +49,18 @@
   </form>
 </div>
 </div>
-
+<div id="change-date-form-container" style="display:none;">
+  <form id="change-date-form">
+    <label for="new-date-entry" class="form-label">Seleccionar nueva fecha:</label>
+    <input type="date" id="new-date-entry" name="newDate" class="form-input">
+    <button id="submit-new-date" type="button" class="form-button">Confirmar nueva fecha</button>
+    <button id="cancel-change-date" type="button" class="form-button">Cancelar</button>
+  </form>
+</div>
     <h1 id="tickets-heading" style="display: none;">Your Tickets:</h1>
     <div id="tickets-container">
     </div>
-    <script>
-      var calendarEl = document.getElementById("calendar");
-      var calendar = new FullCalendar.Calendar(calendarEl, {
-        eventClick: function(info) {
-        },
-        eventContent: function(info) {
-          var eventDate = info.event.start;
-          var eventName = info.event.title;
-          return {
-            html: '<div class="event-content"><span class="event-title">' + eventName + '</span><br>' + eventDate.toLocaleDateString() + '</div>'
-          };
-        },
-      });
-      calendar.render();
-      function loadTickets() {
-        fetch('/api/getDates')
-          .then(response => response.json())
-          .then(data => {
-            var ticketsContainer = document.getElementById("tickets-container");
-            ticketsContainer.innerHTML = "";
-            if (data.length > 0) {
-              document.getElementById("tickets-heading").style.display = "block";
-              data.forEach(function(ticket) {
-                var ticketElement = document.createElement("div");
-                ticketElement.className = "ticket";
-                ticketElement.innerHTML = `
-                  <div class="ticket">
-  <div class="stub">
-    <div class="top">
-      <span class="admit">Alfred's Zoo</span>
-      <span class="line"></span>
-      <span class="num">
-        ${ticket.title}
-      </span>
-    </div>
-    <div class="number">🦁</div>
-    <div class="invite">
-      ${ticket.extendedProps.guidedTour}
-    </div>
-  </div>
-  <div class="check">
-    <div class="big">
-      Zoo <br> Entry
-    </div>
-    <div class="numberOfVisitors">Visitors: ${ticket.extendedProps.visitors}</div>
-    <div class="info">
-      <section>
-        <div class="title">Date</div>
-        <div>${ticket.start}</div>
-      </section>
-      <section>
-        <div class="title">Ticket ID: ${ticket.id}</div>
-      </section>
-    </div>
-  </div>
-</div>
-                `;
-                ticketsContainer.appendChild(ticketElement);
-              });
-            }
-          })
-          .catch(error => {
-            console.error('Error loading tickets:', error);
-          });
-      }
-      loadTickets();
-      document.getElementById("schedule-entry").addEventListener("click", function() {
-    var dateEntry = document.getElementById("date-entry").value;
-    var nameEntry = document.getElementById("name-entry").value;
-    var lastNameEntry = document.getElementById("last-name-entry").value;
-    var numberOfVisitors = document.getElementById("visitorsCuantity").value;
-    var guidedTourConfirmationValue = document.getElementById("guidedTourConfirmation").checked ? 'Tour Included!' : 'Have fun!';
-    if (dateEntry) {
-        var formData = new FormData();
-        formData.append("date", dateEntry);
-        formData.append("name-entry", nameEntry);
-        formData.append("last-name-entry", lastNameEntry);
-        formData.append("visitorsCuantity", numberOfVisitors);
-        formData.append("guidedTourConfirmation", guidedTourConfirmationValue);
-        fetch('/api/addDate', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'success') {
-                alert(data.message);
-                document.getElementById("schedule-form").reset();
-                calendar.addEvent({
-                    title: nameEntry + " " + lastNameEntry,
-                    start: dateEntry,
-                });    
-                loadTickets(); 
-                document.getElementById("confirmation-form-container").style.display = "block";
-                document.getElementById("reservation-details").innerHTML = `
-                    <p>Fecha: ${dateEntry}</p>
-                    <p>Nombre: ${nameEntry} ${lastNameEntry}</p>
-                    <p>Número de visitantes: ${numberOfVisitors}</p>
-                    <p>Tour guiado: ${guidedTourConfirmationValue}</p>
-                `;
-            } else {
-                alert(data.message);
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-    } else {
-        alert("Please select a date to schedule a visit.");
-    }
-});
-function loadEventsToCalendar() {
-  fetch('/api/getDates')
-    .then(response => response.json())
-    .then(data => {
-
-      data.forEach(function(eventData) {
-        calendar.addEvent({
-          title: eventData.title, 
-          start: eventData.start, 
-        });
-      });
-    })
-    .catch(error => {
-      console.error('Error loading events:', error);
-    });
-}
-document.addEventListener('DOMContentLoaded', function() {
-  loadEventsToCalendar();
-});
-document.getElementById("proceed-to-payment").addEventListener("click", function() {
-    window.location.href = '/paymentProcessing'; 
-});
-    </script>
+    <script type="text/javascript" src="{{url_for('static', filename='js/schedulePage.js')}}"></script>
     <div class="panel-bottom"></div>
   </body>
 </html>

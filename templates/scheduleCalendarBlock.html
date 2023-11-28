@@ -1,8 +1,7 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
 {% block newsCalendar %}
-<div class="news-calendar-container" style="margin-left: 35%;">
-  <img clas="lion-event--image" src="{{url_for('static', filename='images/lion-event.png')}}"
-    style="margin-right: 30%;">
+<div class="news-calendar-container">
+  <img clas="lion-event--image" src="{{url_for('static', filename='images/lion-event.png')}}">
 
   <div class="calendar-container floating-container">
     {{ calendarHtml | safe }}

@@ -1,10 +1,13 @@
 import requests
+from bson.errors import InvalidId
 from flask import Flask, render_template, request, redirect, url_for, jsonify, session
+from bson.objectid import ObjectId
+from functools import wraps
 from pymongo import MongoClient
 from flask_moment import Moment
 import calendar
 from flask_mail import Mail, Message
-from datetime import datetime
+from datetime import datetime, timedelta, date
 from google.cloud import storage
 from google.oauth2 import service_account
 from bson import json_util
@@ -40,6 +43,7 @@ paypalrestsdk.configure({
   "client_id": "AbjKwdLo3BCZGYEwe6RV2AOv8YfZHQp_mw22SIjZ3BgERdAlYirlRD4_If5a7Ig8H3-NezemnblSpOPI",
   "client_secret": "EOxAlD-DUhFnD9QOZnhtCxQhEjwWijOcOe5tx5gpZj4t1uB3UGFB3mOyN3Z1bIIB2SOtQK-UL2eTTSg2" })
 
+newsCollection = db['newsData']
 class CustomHTMLCalendar(calendar.HTMLCalendar):
     def __init__(self, year, month, day):
         super().__init__()
@@ -55,6 +59,16 @@ class CustomHTMLCalendar(calendar.HTMLCalendar):
         else:
             return f'<td class="{self.cssclasses[weekday]}">{day}</td>'
 
+
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        print("El decorador admin_required se está ejecutando.")
+        if 'adminUsername' in session and session['role'] == 'admin':
+            return f(*args, **kwargs)
+        else:
+            return jsonify({'message': 'Acceso no autorizado'}), 403
+    return decorated_function
 
 @app.route("/")
 @app.route("/", methods=['GET', 'POST'])
@@ -72,15 +86,15 @@ def home():
             interestingFact = result.get("interesting-fact", "No interesting fact available")
             animalData.append({"name": name, "image": image, "interestingFact": interestingFact})
 
-    # The calendar logic here
     currentYear = datetime.now().year
     currentMonth = datetime.now().month
     currentDay = datetime.now().day
     cal = CustomHTMLCalendar(currentYear, currentMonth, currentDay)
     calendarHtml = cal.formatmonth(currentYear, currentMonth)
     currentDate = datetime.now().strftime("%B, %d %Y")
+    is_logged_in = 'username' in session
 
-    return render_template('home.html', calendarHtml=calendarHtml, currentDate=currentDate, searchTerm=searchTerm, results=animalData)
+    return render_template('home.html', is_logged_in=is_logged_in, calendarHtml=calendarHtml, currentDate=currentDate, searchTerm=searchTerm, results=animalData)
 
 
 def header():
@@ -112,6 +126,9 @@ def socialMediaBlock():
 
 def aboutUsBlock():
     return render_template('aboutUsBlock.html')
+
+def newsPage():
+    return render_template('newsPage.html')
 
 @app.route("/api/mammals")
 def get_mammals():
@@ -168,7 +185,10 @@ def adminloginPage():
 
 @app.route("/adminPage")
 def adminPage():
-    return render_template('adminPage.html')
+    if 'adminUsername' in session and session['role'] == 'admin':
+        return render_template('adminPage.html')
+    else:
+        return redirect(url_for('home')), 403
 
 @app.route("/userRegistration")
 def userRegistrationPage():
@@ -181,6 +201,10 @@ def loginPage():
 @app.route("/paymentProcessing")
 def paymentProcessing():
     return render_template('paymentProcessing.html')
+
+@app.route("/navbarView")
+def NavbarView():
+    return render_template('navbarBlock.html')
 
 adminCollection = db['savedAdminData']
 
@@ -220,7 +244,6 @@ class AdminUser:
             "email": self.email,
             "password": self.password
         }
-
 @app.route('/signupAdmin', methods=['POST'])
 def adminSignup():
     data = request.get_json()
@@ -275,23 +298,23 @@ def signup():
 
 @app.route('/adminLogin', methods=['POST'])
 def adminLogin():
-    data = request.get_json() 
+    data = request.get_json()
     adminEmail = data.get('adminEmail')
     adminPassword = data.get('adminPassword')
     adminUser = db.users.find_one({'email': adminEmail})
-
-    if adminUser and check_password_hash(adminUser['password'], adminPassword):
-        adminUsername = adminUser.get('username', None)
-        if adminUsername:
-            session['adminUsername'] = adminUsername
-            return jsonify({'status': 'success', 'message': 'Successfully logged in.', 'redirect': url_for('adminPage')})
-        else:
-            return jsonify({'status': 'fail', 'message': 'Username does not exist.'})
+    if adminUser and adminUser.get('role') == 'admin' and check_password_hash(adminUser['password'], adminPassword):
+        session['adminUsername'] = adminUser.get('username')
+        session['role'] = 'admin'
+        return jsonify({'status': 'success', 'message': 'Successfully logged in.', 'redirect': url_for('adminPage')})
     else:
-        return jsonify({'status': 'fail', 'message': 'Invalid email or password.'})
+        return jsonify({'status': 'fail', 'message': 'Acceso no autorizado o contraseña inválida.'})
+
 
 @app.route('/login', methods=['POST'])
 def login():
+    if 'adminUsername' in session and session['role'] == 'admin':
+        return jsonify({'status': 'fail', 'message': 'No puedes iniciar sesión como usuario siendo administrador.'}), 403
+
     data = request.get_json()
     email = data.get('email')
     password = data.get('password')
@@ -300,15 +323,19 @@ def login():
     
     if user and check_password_hash(user['password'], password):
         session['username'] = user['username']
-        session['role'] = user.get('role', 'user')  
-        redirect_url = 'adminPage' if session['role'] == 'admin' else 'home'
+        session['role'] = user.get('role', 'user')
+        redirect_url = 'home'
         return jsonify({'status': 'success', 'message': 'Successfully logged in.', 'redirect': url_for(redirect_url)})
     else:
         return jsonify({'status': 'fail', 'message': 'Invalid email or password.'})
 
+
 @app.route('/logout')
 def logout():
+    print("Antes del logout:", session)
     session.pop('username', None)
+    session.pop('adminUsername', None)
+    print("Después del logout:", session)
     return redirect(url_for('home'))
 
 datesCollection = db['savedDatesData']
@@ -317,32 +344,110 @@ datesCollection = db['savedDatesData']
 def addSavedDate():
     if 'username' in session:
         user_id = session['username']
-        date = request.form['date']
+        reservation_date_str = request.form['date']
+        reservation_date = datetime.strptime(reservation_date_str, '%Y-%m-%d').date()
+        max_reservation_date = date.today() + timedelta(days=30)
+        if reservation_date < date.today():
+            return jsonify({'status': 'fail', 'message': 'Cant do reservations for past days'}), 400
+        if reservation_date > max_reservation_date:
+            return jsonify({'status': 'fail', 'message': 'Cant do reservations with more of 30 days.'}), 400
         name = request.form['name-entry']
         lastName = request.form['last-name-entry']
         visitors = request.form['visitorsCuantity']
         guided_tour = request.form.get('guidedTourConfirmation', 'Have fun!')
         newDateAdded = {
             "user_id": user_id,
-            "fecha": date,
-            "name": name,
-            "lastName": lastName,
-            "visitors": visitors,  
-            "guidedTour": guided_tour  
-        }
-        
-        datesCollection.insert_one(newDateAdded)
-        session['reservation_info'] = {
-            "date": date,
+            "fecha": reservation_date_str,
             "name": name,
             "lastName": lastName,
             "visitors": visitors,
-            "guidedTour": guided_tour  
+            "guidedTour": guided_tour,
+            "confirmed": False
         }
-        return jsonify({'status': 'success', 'message': 'Date added successfully.'})
+        timestamp = datetime.now()
+        newDateAdded['reservationTimestamp'] = timestamp
+        result = db.savedDatesData.insert_one(newDateAdded)
+        reservation_id = str(result.inserted_id)
+        session['reservation_info'] = {
+            "date": reservation_date_str,
+            "name": name,
+            "lastName": lastName,
+            "visitors": visitors,
+            "guidedTour": guided_tour,
+            "reservationId": reservation_id
+        }
+        return jsonify({'status': 'success', 'message': 'Date added successfully.', 'reservationId': reservation_id})
     else:
         return jsonify({'status': 'fail', 'message': 'Usuario no autenticado.'})
 
+@app.route('/api/cancelDate', methods=['POST'])
+def cancelDate():
+    try:
+        user_id = session.get('username')
+        if not user_id:
+            return jsonify({'status': 'fail', 'message': 'unauthenticated user.'}), 401
+        
+        event_id = request.json.get('event_id')
+        if not event_id:
+            return jsonify({'status': 'fail', 'message': 'Event ID not provided.'}), 400
+
+        event = datesCollection.find_one({'_id': ObjectId(event_id), 'user_id': user_id})
+        if not event:
+            return jsonify({'status': 'fail', 'message': 'Reservation not found.'}), 404
+        
+        reservation_time = event.get('reservationTimestamp')
+        if not isinstance(reservation_time, datetime):
+            return jsonify({'status': 'fail', 'message': 'Not valid Timestamp entry.'}), 400
+
+        time_elapsed = (datetime.now() - reservation_time).total_seconds()
+
+        if time_elapsed <= 86400:
+            return jsonify({'status': 'modifiable', 'message': 'Modificable entry.'})
+        else:
+            datesCollection.delete_one({'_id': ObjectId(event_id)})
+            return jsonify({'status': 'success', 'message': 'Reserva cancelada exitosamente.'})
+    
+    except Exception as e:
+        print(f"Error en cancelDate: {e}")
+        return jsonify({'status': 'fail', 'message': 'Error interno del servidor'}), 500
+
+@app.route('/api/changeDate', methods=['POST'])
+def changeDate():
+    if 'username' not in session:
+        return jsonify({'status': 'fail', 'message': 'Usuario no autenticado.'}), 401
+
+    data = request.json
+    ticket_id = data.get('ticketId')
+    new_date_str = data.get('newDate')
+
+    if not ticket_id or not new_date_str:
+        return jsonify({'status': 'fail', 'message': 'Incomplete data.'}), 400
+
+    try:
+        new_date = datetime.strptime(new_date_str, '%Y-%m-%d').date()
+        today = date.today()
+        max_date = today + timedelta(days=30)
+
+        if new_date < today:
+            return jsonify({'status': 'fail', 'message': 'La nueva fecha no puede ser anterior a la fecha actual.'}), 400
+
+        if new_date > max_date:
+            return jsonify({'status': 'fail', 'message': 'La nueva fecha no puede ser posterior a 30 días desde hoy.'}), 400
+
+        update_result = datesCollection.update_one(
+            {'_id': ObjectId(ticket_id), 'user_id': session['username']},
+            {'$set': {'fecha': new_date_str}}
+        )
+
+        if update_result.modified_count == 1:
+            return jsonify({'status': 'success', 'message': 'Fecha actualizada correctamente.'})
+        else:
+            return jsonify({'status': 'fail', 'message': 'No se pudo actualizar la fecha.'}), 500
+
+    except Exception as e:
+        print(f"Error: {e}")
+        return jsonify({'status': 'fail', 'message': 'Error en el servidor'}), 500
+    
 @app.route('/api/getDates', methods=['GET'])
 def getDates():
     if 'username' in session:
@@ -411,6 +516,196 @@ def execute():
         print(payment.error)
 
     return jsonify({'success' : success})
+
+@app.route('/api/confirmPayment', methods=['POST'])
+def confirmPayment():
+    if 'username' not in session:
+        return jsonify({'status': 'fail', 'message': 'Unauthenticated user.'}), 401
+
+    reservation_id = request.json.get('reservationId')
+    if not reservation_id:
+        return jsonify({'status': 'fail', 'message': 'Reservation ID not provided.'}), 400
+    
+    reservation = datesCollection.find_one({'_id': ObjectId(reservation_id), 'user_id': session['username']})
+    if not reservation:
+        return jsonify({'status': 'fail', 'message': 'Reservation not found or does not correspond to the user.'}), 404
+
+    update_result = datesCollection.update_one(
+        {'_id': ObjectId(reservation_id)},
+        {'$set': {'confirmed': True}}
+    )
+
+    if update_result.modified_count == 1:
+        return jsonify({'status': 'success', 'message': 'Payment confirmed, schedule updated.'})
+    else:
+        return jsonify({'status': 'fail', 'message': 'The entry cant be updated.'}), 500
+
+@app.route('/api/getUsers', methods=['GET'])
+def getUsers():
+    if 'adminUsername' in session:
+        users = db.users.find({})
+        user_list = [{'username': user['username'], 'role': user['role'], '_id': str(user['_id'])} for user in users]
+        return jsonify(user_list)
+    else:
+        return jsonify({'message': 'Acceso no autorizado'}), 403
+    
+@app.route('/api/updateUserRole', methods=['POST'])
+def updateUserRole():
+    if 'adminUsername' in session:
+        data = request.json
+        user_id = data['user_id']
+        new_role = data['new_role']
+        db.users.update_one({'_id': ObjectId(user_id)}, {'$set': {'role': new_role}})
+        return jsonify({'message': 'Rol updated succesfully'})
+    else:
+        return jsonify({'message': 'Unauthorized access'}), 403
+
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        print("El decorador admin_required se está ejecutando.")
+        print("Usuario actual:", session.get('adminUsername'))
+        print("Rol actual:", session.get('role'))
+        if 'adminUsername' in session and session.get('role') == 'admin':
+            return f(*args, **kwargs)
+        else:
+            return jsonify({'message': 'Acceso no autorizado'}), 403
+    return decorated_function
+
+
+@app.route('/api/news', methods=['GET'])
+def getAllNews():
+        newsItems = newsCollection.find({})
+        newsList = [json.loads(json_util.dumps(newsItem)) for newsItem in newsItems]
+        return jsonify(newsList)
+
+@app.route('/api/news/<newsId>', methods=['GET'])
+def getSingleNews(newsId):
+    if 'adminUsername' in session:
+        newsItem = newsCollection.find_one({'_id': ObjectId(newsId)})
+        if newsItem:
+            return json_util.dumps(newsItem)
+        else:
+            return jsonify({'message': 'Noticia no encontrada'}), 404
+    else:
+        return jsonify({'message': 'Acceso no autorizado'}), 403
+
+@app.route('/api/news/<newsId>', methods=['PUT'])
+def updateNews(newsId):
+    if 'adminUsername' in session:
+        data = request.json
+        updateResult = newsCollection.update_one({'_id': ObjectId(newsId)}, {'$set': data})
+        if updateResult.modified_count == 1:
+            return jsonify({'message': 'Noticia actualizada con éxito'})
+        else:
+            return jsonify({'message': 'No se pudo actualizar la noticia'}), 500
+    else:
+        return jsonify({'message': 'Acceso no autorizado'}), 403
+
+@app.route('/api/news/<newsId>', methods=['DELETE'])
+def deleteNews(newsId):
+    if 'adminUsername' in session:
+        deleteResult = newsCollection.delete_one({'_id': ObjectId(newsId)})
+        if deleteResult.deleted_count == 1:
+            return jsonify({'message': 'Noticia eliminada con éxito'})
+        else:
+            return jsonify({'message': 'No se pudo eliminar la noticia'}), 404
+    else:
+        return jsonify({'message': 'Acceso no autorizado'}), 403
+    
+def get_all_news():
+    try:
+        news_items = newsCollection.find({})
+        return [json.loads(json_util.dumps(news_item)) for news_item in news_items]
+    except Exception as e:
+        print(f"Error al obtener todas las noticias: {e}")
+        return None
+
+def get_news_by_id(news_id):
+    try:
+        return newsCollection.find_one({'_id': ObjectId(news_id)})
+    except Exception as e:
+        print(f"Error al obtener la noticia con ID {news_id}: {e}")
+        return None
+
+@app.route('/api/news/<news_id>', methods=['PUT'])
+@admin_required
+def update_news(news_id, update_data):
+    try:
+        update_result = newsCollection.update_one({'_id': ObjectId(news_id)}, {'$set': update_data})
+        return update_result.modified_count == 1
+    except Exception as e:
+        print(f"Error al actualizar la noticia con ID {news_id}: {e}")
+        return False
+    pass
+
+@app.route('/api/news', methods=['POST'])
+@admin_required
+def create_news(news_data):
+    try:
+        insert_result = newsCollection.insert_one(news_data)
+        return str(insert_result.inserted_id)
+    except Exception as e:
+        print(f"Error al crear una nueva noticia: {e}")
+        return None
+    pass
+@app.route('/api/news/<news_id>', methods=['DELETE'])
+@admin_required
+def delete_news(news_id):
+    try:
+        delete_result = newsCollection.delete_one({'_id': ObjectId(news_id)})
+        return delete_result.deleted_count == 1
+    except Exception as e:
+        print(f"Error al eliminar la noticia con ID {news_id}: {e}")
+        return False
+    pass
+
+@app.route('/api/news/updateMultiple', methods=['PUT'])
+@admin_required
+def update_multiple_news():
+    try:
+        data = request.get_json()
+        updated_news_list = data['updatedNews'] 
+        news_ids = data['newsIds']           
+        updated_count = 0
+        for news_id, news_data in zip(news_ids, updated_news_list):
+            try:
+                update_result = newsCollection.update_one(
+                    {'_id': ObjectId(news_id)}, 
+                    {'$set': news_data}
+                )
+                if update_result.modified_count == 1:
+                    updated_count += 1
+            except InvalidId:
+                print(f"ID inválido encontrado: {news_id}")
+        if updated_count == len(news_ids):
+            return jsonify({'status': 'success', 'message': 'Changes saved succesfully'})
+        elif updated_count > 0:
+            return jsonify({'status': 'partial_success', 'message': f'Se actualizaron {updated_count} de {len(news_ids)} noticias'})
+        else:
+            return jsonify({'status': 'fail', 'message': 'No se pudo actualizar ninguna noticia'}), 500
+
+    except Exception as e:
+        print(f"Error al actualizar noticias: {e}")
+        return jsonify({'status': 'fail', 'message': str(e)}), 500
+    
+print(update_multiple_news)
+
+@app.route('/api/news/updateImage/<newsId>', methods=['PUT'])
+def update_news_image(newsId):
+    try:
+        newImageUrl = request.json.get('newImageUrl')
+        updateResult = newsCollection.update_one(
+            {'_id': ObjectId(newsId)}, 
+            {'$set': {'image': newImageUrl}}
+        )
+        if updateResult.modified_count == 1:
+            return jsonify({'status': 'success', 'message': 'Imagen actualizada con éxito'})
+        else:
+            return jsonify({'status': 'fail', 'message': 'No se pudo actualizar la imagen'}), 500
+    except Exception as e:
+        print(f"Error al actualizar la imagen: {e}")
+        return jsonify({'status': 'fail', 'message': str(e)}), 500
 
 googleCredentialsPath = os.getenv('GOOGLE_APPLICATION_CREDENTIALS')
 creds = service_account.Credentials.from_service_account_file(

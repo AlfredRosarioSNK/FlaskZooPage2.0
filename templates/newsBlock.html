@@ -6,74 +6,25 @@
       <h2>blog & news</h2>
       <p>Lets see what happens out there.</p>
     </div>
-    <div class="cards">
-      <div class="card">
-        <div class="image-section">
-          <img src="{{url_for('static', filename='/images/news/newsOne.jpg')}}">
-        </div>
-        <div class="article">
-          <h4>Criminal Cases for Killing Eagles Decline as Wind Turbine Dangers Grow</h4>
-          <p>ROLLING HILLS, Wyo. (AP) — Criminal cases brought by U.S. wildlife officials for killing or harming
-            protected bald and golden eagles dropped sharply
-            in recent years, even as officials ramped up issuing permits that will allow wind energy companies to kill
-            thousands of eagles without legal consequence.</p>
-        </div>
-        <div class="blog-view">
-          <a target="_blank"
-            href="https://www.usnews.com/news/best-states/wyoming/articles/2023-05-17/criminal-cases-for-killing-eagles-decline-as-wind-turbine-dangers-grow"
-            class="button">read more</a>
-        </div>
-        <div class="posted-date">
-          <p>posted on May 17, 2023</p>
-        </div>
-      </div>
-      <div class="card">
-        <div class="image-section">
-          <img src="{{url_for('static', filename='/images/news/newsTwo.jpg')}}">
-        </div>
-        <div class="article">
-          <h4>Surfing Gator Seen Relaxing at Alabama Beach Amid the Waves</h4>
-          <p>There are plenty of alligators in Alabama. But how many enjoy a day at the beach?
-
-            One such unlikely critter was spotted riding the waves recently on Dauphin Island, bobbing calmly near the
-            human beachgoers sunbathing and wading.
-
-            Matt Harvill, a 27-year-old Mobile resident, came across the lengthy gator on May 7 while at the beach
-            taking pregnancy announcement photos with his girlfriend.</p>
-        </div>
-        <div class="blog-view">
-          <a target="_blank"
-            href="https://apnews.com/article/alabama-alligator-beach-swimming-video-468c5aa61224bf51da5823c19e391f0d"
-            class="button">read more</a>
-        </div>
-        <div class="posted-date">
-          <p>posted on May 16, 2023</p>
-        </div>
-      </div>
-      <div class="card">
-        <div class="image-section">
-          <img src="{{url_for('static', filename='/images/news/newsThree.jpg')}}">
-        </div>
-        <div class="article">
-          <h4>Herders in Kenya Kill 10 Lions, Including Loonkiito, One of the Country's Oldest</h4>
-          <p>NAIROBI, Kenya (AP) — One of Kenya’s oldest wild lions was killed by herders and the government has
-            expressed concern as six more lions were speared at another village on Saturday, bringing to 10 the number
-            killed last week alone.
-
-            The male lion named Loonkiito was 19 years old and was described as frail by Kenya Wildlife Service
-            spokesperson Paul Jinaro, who said it wandered out of the Amboseli national park into a village in search of
-            food on Thursday night.</p>
-        </div>
-        <div class="blog-view">
-          <a target="_blank"
-            href="https://www.usnews.com/news/world/articles/2023-05-14/herders-in-kenya-kill-10-lions-including-loonkiito-one-of-the-countrys-oldest"
-            class="button">read more</a>
-        </div>
-        <div class="posted-date">
-          <p>posted on May 14, 2023</p>
-        </div>
-      </div>
+    <div class="cards" id="newsContainer">
     </div>
+    <button id="editAllNews" style="display: none;">Editar Todas las Noticias</button>
+    <button id="saveAllNews" style="display: none;">Guardar Todas las Noticias</button>    
+    <button id="cancelAllNews" style="display: none;">Cancelar Edición</button>
+
+
   </div>
 </div>
+
+<div id="imageEditModal" class="modal">
+  <div class="modal-content">
+      <h4>Editar URL de la Imagen</h4>
+      <input type="text" id="newImageUrlInput" placeholder="Nueva URL de la imagen">
+      <button id="submitImageUrlBtn">Enviar</button>
+      <button id="cancelImageUrlBtn">Cancelar</button>
+  </div>
+</div>
+
+<script type="text/javascript" src="{{url_for('static', filename='js/newsBlock.js')}}"></script>
+
 {% endblock %}

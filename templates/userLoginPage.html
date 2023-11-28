@@ -4,65 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>User Login</title>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-  .user-form {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    max-width: 400px;
-    width: 100%;
-  }
-  .user-form__control {
-    margin-bottom: 15px;
-  }
-  .user-form__control label {
-    display: block;
-    margin-bottom: 5px;
-  }
-  .user-form__control input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box;
-  }
-  .user-form__control input[type="submit"] {
-    background-color: #5cb85c;
-    color: white;
-    cursor: pointer;
-    border: none;
-  }
-  .user-form__control input[type="submit"]:hover {
-    background-color: #4cae4c;
-  }
-
-  .user-form__control button {
-  width: 100%;
-  padding: 10px;
-  background-color: #007bff; 
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-</style>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/userLoginPage.css') }}">
 </head>
 <body>
 <div class="user-form">
-  <h2>User Login</h2>
+  <a href="/">
+    <img src="{{ url_for('static', filename='images/icons/backButton-icon.png') }}" alt="back" style="height:40px;">   
+  </a> 
+  <h2>Login</h2>
   <form id="loginForm" action="/login" method="POST"> 
     <div class="user-form__control">
       <label for="email">Email</label>
@@ -75,40 +24,12 @@
     <div class="user-form__control">
         <button type="submit" id="loginButton">Login</button> 
       </div>
-    <span><a href="/userRegistration">Are you new? Register here!</a></span>
+    <span><a class="RegisterUserHyperlink--item" href="/userRegistration">Are you new? Register here!</a></span>
+    <span><a class="workHyperlink--item" href="/adminLoginPage">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;You work with us?</a></span>
   </form>
 </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const loginForm = document.getElementById('loginForm');
-    
-      loginForm.addEventListener('submit', function(event) {
-        event.preventDefault();
-        
-        const formData = new FormData(this);
-        const data = Object.fromEntries(formData.entries());
-    
-        fetch(this.action, { 
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data),
-        })
-        .then(response => response.json())
-        .then(data => {
-          if (data.status === 'success') {
-            window.location.href = data.redirect; 
-          } else {
-            alert(data.message); 
-          }
-        })
-        .catch(error => {
-          console.error('Error:', error);
-        });
-      });
-    });
-    </script>
+<script type="text/javascript" src="{{url_for('static', filename='js/userLoginPage.js')}}"></script>
+
 </body>
 </html>

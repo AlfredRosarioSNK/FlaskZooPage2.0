@@ -1,13 +1,16 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
 {% block video %}
-<iframe id="linkToZoo" class="video-section" style="margin-left: 30%;" width="560" height="315"
-  src="https://www.youtube.com/embed/sX1XwDFdpdc" title="YouTube video player" frameborder="0"
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-  allowfullscreen></iframe>
-<div class="video-description">
-  <h2>Experience the Wonders of Nature</h2>
-  <p>Our zoo is a sanctuary for the most diverse species on the planet. Come face-to-face with exotic wildlife from all
-    around the world. It's an experience that is both thrilling and educational - perfect for families and wildlife
-    lovers. Join us on this adventure and create unforgettable memories!</p>
+<div class="zooVideo-container">
+  <iframe id="linkToZoo" class="video-section" width="10px" height="30px"
+    src="https://www.youtube.com/embed/sX1XwDFdpdc" title="YouTube video player" frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen></iframe>
+  <div class="video-description">
+    <h2>Experience the Wonders of Nature</h2>
+    <p>Our zoo is a sanctuary for the most diverse species on the planet. Come face-to-face with exotic wildlife from
+      all
+      around the world. It's an experience that is both thrilling and educational - perfect for families and wildlife
+      lovers. Join us on this adventure and create unforgettable memories!</p>
+  </div>
 </div>
 {% endblock %}

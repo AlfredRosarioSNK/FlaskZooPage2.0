@@ -7,18 +7,35 @@
 <div class="menu-Block--DimensionPosition">
   <header>
     <a href="{{ url_for('home') }}"><img class="logo--Size" src="{{ url_for('static', filename='/images/Logo/Logo.png') }}"></a>
+    <a></a>
     <div class="navbar">
-      <a href="#home" class="navbar__link navbar__link--active">Home</a>
       {% if session['username'] %}
         <span class="navbar__link">Hello, {{ session['username'] }}!</span>
         <a href="{{ url_for('logout') }}" class="navbar__link navbar__link--hover">Logout</a>
       {% else %}
       <a href="{{ url_for('loginPage') }}" class="navbar__link navbar__link--hover">Login</a>
       {% endif %}
+      <a href="{{ url_for('schedulePage') }}" id="getEntryLink" class="navbar__link navbar__link--hover">Get an entry</a>
     </div>
   </header>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+  <input type="hidden" id="isLoggedIn" value="{{ 'true' if session.get('username') else 'false' }}">
+  <input type="hidden" id="loginUrl" value="{{ url_for('loginPage') }}">
 </div>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      const getEntryLink = document.getElementById('getEntryLink');
+      const isLoggedIn = document.getElementById('isLoggedIn').value === 'true';
+      const loginUrl = document.getElementById('loginUrl').value; 
+      getEntryLink.addEventListener('click', function(event) {
+          if (!isLoggedIn) {
+              event.preventDefault();
+              alert('You need to be logged in to get an entry.');
+              window.location.href = loginUrl;
+          }
+      });
+  });
+  </script>
 {% endblock %}

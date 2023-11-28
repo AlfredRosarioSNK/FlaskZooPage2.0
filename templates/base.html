@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
+  <main class="main-container">
 <head>
   <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,8 +23,7 @@
   {% endblock %}
   {{ moment.include_moment() }}
 </head>
-
-<body>
+<body data-is-admin="{{ 'true' if 'adminUsername' in session else 'false' }}">
   <div id="splash-screen" style="display: none;">
     <div class="paws">
       <img src="{{url_for('static', filename='/images/paws.webp')}}" alt="">
@@ -42,11 +41,11 @@
     integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD"
     crossorigin="anonymous"></script>
   <script type="text/javascript" src="{{url_for('static', filename='js/mapModal.js')}}"></script>
-  <script type="text/javascript" src="{{url_for('static', filename='js/loginSignUp.js')}}"></script>
   <script type="text/javascript" src="{{url_for('static', filename='js/apiCountries.js')}}"></script>
   <script type="text/javascript" src="{{url_for('static', filename='js/gallery.js')}}"></script>
   <script type="text/javascript" src="{{url_for('static', filename='js/scrollUp.js')}}"></script>
   <script type="text/javascript" src="{{url_for('static', filename='js/splashScreen.js')}}"></script>
-</body>
 
+</body>
+</main>
 </html>
