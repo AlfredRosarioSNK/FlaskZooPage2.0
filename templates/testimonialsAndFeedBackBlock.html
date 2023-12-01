@@ -119,37 +119,37 @@
           With some improvements, this could be a top-notch zoo.</p>
       </div>
     </div>
+  </div>
+</section>
+<div id="linkToContactUs" class="content-container">
+  {% if session['username'] is defined %}
+  <div class="contact-form--style">
+    <div class="container contact-form">
+      <h1 class="text-center mb-4">
+        Contact Us
+        <span class="tooltip">
+          <i class="far fa-star"></i>
+          <span class="tooltip-message"></span>
+        </span>
+      </h1>
+      <form method="post" action="{{ url_for('sendEmail') }}">
+        <label for="fname">Name</label>
+        <input type="text" id="fname" name="firstname" placeholder="Your name..">
+        <label for="lname">Mail</label>
+        <input type="email" id="lname" name="lastname" placeholder="johnDoe@example.com" required>
+        <label for="country">Country:</label>
+        <select id="country" name="country"></select>
+        <label for="subject">Subject</label>
+        <textarea id="subject" name="subject" placeholder="Write something.." style="height:200px"></textarea>
+        <input type="submit" value="Submit">
+      </form>
     </div>
-    </section>
-    <div id="linkToContactUs" class="content-container">
-      {% if session['username'] is defined %}
-      <div class="contact-form--style">
-        <div class="container contact-form">
-          <h1 class="text-center mb-4">
-            Contact Us
-            <span class="tooltip">
-              <i class="far fa-star"></i>
-              <span class="tooltip-message"></span>
-            </span>
-          </h1>
-          <form method="post" action="{{ url_for('sendEmail') }}">
-            <label for="fname">Name</label>
-            <input type="text" id="fname" name="firstname" placeholder="Your name..">
-            <label for="lname">Mail</label>
-            <input type="email" id="lname" name="lastname" placeholder="johnDoe@example.com" required>
-            <label for="country">Country:</label>
-            <select id="country" name="country"></select>
-            <label for="subject">Subject</label>
-            <textarea id="subject" name="subject" placeholder="Write something.." style="height:200px"></textarea>
-            <input type="submit" value="Submit">
-          </form>
-        </div>
-        {% else %}
-        <div class="notLoggedFeedBackImageStyles">
-        <img src="{{url_for('static', filename='/images/FeedBack.webp')}}" />
-        <p class="innerFeedBackText">You must be logged to send a Feedback!</p>
-        </div>
-        {% endif %}
-      </div>
-  
-      {% endblock %}
+    {% else %}
+    <div class="notLoggedFeedBackImageStyles">
+      <img src="{{url_for('static', filename='/images/FeedBack.webp')}}" />
+      <p class="innerFeedBackText">You must be logged to send a Feedback!</p>
+    </div>
+    {% endif %}
+  </div>
+
+  {% endblock %}

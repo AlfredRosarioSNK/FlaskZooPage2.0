@@ -6,16 +6,23 @@
 <input type="hidden" id="loginUrl" value="{{ url_for('login') }}">
 <div class="menu-Block--DimensionPosition">
   <header>
-    <a href="{{ url_for('home') }}"><img class="logo--Size" src="{{ url_for('static', filename='/images/Logo/Logo.png') }}"></a>
-    <a></a>
+    <img class="logo--Size" src="{{ url_for('static', filename='/images/Logo/Logo.png') }}">
     <div class="navbar">
+      {% if session['adminUsername'] %}
+      <span class="navbar__link">Hello, {{ session['adminUsername'] }}!</span>
+      <a href="/adminPage">
+        <img src="{{ url_for('static', filename='images/icons/gear-icon.png') }}" alt="admin page" style="height:40px;">
+      </a>
+      {% else %}
       {% if session['username'] %}
-        <span class="navbar__link">Hello, {{ session['username'] }}!</span>
-        <a href="{{ url_for('logout') }}" class="navbar__link navbar__link--hover">Logout</a>
+      <span class="navbar__link">Hello, {{ session['username'] }}!</span>
+      <a href="{{ url_for('logout') }}" class="navbar__link navbar__link--hover">Logout</a>
+      <a href="{{ url_for('schedulePage') }}" id="getEntryLink" class="navbar__link navbar__link--hover">Get an
+        entry</a>
       {% else %}
       <a href="{{ url_for('loginPage') }}" class="navbar__link navbar__link--hover">Login</a>
       {% endif %}
-      <a href="{{ url_for('schedulePage') }}" id="getEntryLink" class="navbar__link navbar__link--hover">Get an entry</a>
+      {% endif %}
     </div>
   </header>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,17 +32,17 @@
   <input type="hidden" id="loginUrl" value="{{ url_for('loginPage') }}">
 </div>
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-      const getEntryLink = document.getElementById('getEntryLink');
-      const isLoggedIn = document.getElementById('isLoggedIn').value === 'true';
-      const loginUrl = document.getElementById('loginUrl').value; 
-      getEntryLink.addEventListener('click', function(event) {
-          if (!isLoggedIn) {
-              event.preventDefault();
-              alert('You need to be logged in to get an entry.');
-              window.location.href = loginUrl;
-          }
-      });
+  document.addEventListener('DOMContentLoaded', function () {
+    const getEntryLink = document.getElementById('getEntryLink');
+    const isLoggedIn = document.getElementById('isLoggedIn').value === 'true';
+    const loginUrl = document.getElementById('loginUrl').value;
+    getEntryLink.addEventListener('click', function (event) {
+      if (!isLoggedIn) {
+        event.preventDefault();
+        alert('You need to be logged in to get an entry.');
+        window.location.href = loginUrl;
+      }
+    });
   });
-  </script>
+</script>
 {% endblock %}

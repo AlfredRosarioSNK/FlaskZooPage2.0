@@ -1,52 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>User Registration</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/userRegistrationPage.css') }}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Registration</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/userRegistrationPage.css') }}">
 
 </head>
-<body>
-<div class="user-form">
-  <h2>Registration</h2>
-  <form>
-    <div class="user-form__control">
-      <label for="username">Username</label>
-      <input type="text" id="username" name="userUsername" required>
-    </div>
-    <div class="user-form__control">
-      <label for="firstName">First Name</label>
-      <input type="text" id="firstName" name="userFirstName" required>
-    </div>
-    <div class="user-form__control">
-      <label for="lastName">Last Name</label>
-      <input type="text" id="lastName" name="userLastName" required>
-    </div>
-    <div class="user-form__control">
-      <label for="email">Email</label>
-      <input type="email" id="email" name="userEmail" required>
-    </div>
-    <div class="user-form__control">
-      <label for="confirmEmail">Confirm Email</label>
-      <input type="email" id="confirmEmail" name="userConfirmEmail" required>
-    </div>
-    <div class="user-form__control">
-      <label for="password">Password</label>
-      <input type="password" id="password" name="userPassword" required>
-    </div>
-    <div class="user-form__control">
-      <label for="confirmPassword">Confirm Password</label>
-      <input type="password" id="confirmPassword" name="userConfirmPassword" required>
-    </div>
-    <div class="user-form__control">
-      <input type="submit" value="Register">
-    </div>
-    <span><a href="mailto:m.bluth@example.com"> Are you already registered? Log in here.</a></span>
-  </form>
-</div>
 
-<script type="text/javascript" src="{{url_for('static', filename='js/userRegistrationPage.js')}}"></script>
+<body>
+  <div class="user-form">
+    <h2>Registration</h2>
+    <form>
+      <div class="user-form__control">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="userUsername" required>
+      </div>
+      <div class="user-form__control">
+        <label for="firstName">First Name</label>
+        <input type="text" id="firstName" name="userFirstName" required>
+      </div>
+      <div class="user-form__control">
+        <label for="lastName">Last Name</label>
+        <input type="text" id="lastName" name="userLastName" required>
+      </div>
+      <div class="user-form__control">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="userEmail" required>
+      </div>
+      <div class="user-form__control">
+        <label for="confirmEmail">Confirm Email</label>
+        <input type="email" id="confirmEmail" name="userConfirmEmail" required>
+      </div>
+      <div class="user-form__control">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="userPassword" required>
+      </div>
+      <div class="user-form__control">
+        <label for="confirmPassword">Confirm Password</label>
+        <input type="password" id="confirmPassword" name="userConfirmPassword" required>
+      </div>
+      <div class="user-form__control">
+        <input type="submit" value="Register">
+      </div>
+      <span><a href="mailto:m.bluth@example.com"> Are you already registered? Log in here.</a></span>
+    </form>
+  </div>
+
+  <script type="text/javascript" src="{{url_for('static', filename='js/userRegistrationPage.js')}}"></script>
 
 </body>
+
 </html>

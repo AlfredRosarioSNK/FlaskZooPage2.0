@@ -1,35 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>User Login</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/userLoginPage.css') }}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Login</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/userLoginPage.css') }}">
 </head>
+
 <body>
-<div class="user-form">
-  <a href="/">
-    <img src="{{ url_for('static', filename='images/icons/backButton-icon.png') }}" alt="back" style="height:40px;">   
-  </a> 
-  <h2>Login</h2>
-  <form id="loginForm" action="/login" method="POST"> 
-    <div class="user-form__control">
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" required>
-    </div>
-    <div class="user-form__control">
-      <label for="password">Password</label>
-      <input type="password" id="password" name="password" required>
-    </div>
-    <div class="user-form__control">
-        <button type="submit" id="loginButton">Login</button> 
+  <div class="user-form">
+    <a href="/">
+      <img src="{{ url_for('static', filename='images/icons/backButton-icon.png') }}" alt="back" style="height:40px;">
+    </a>
+    <h2>Login</h2>
+    <form id="loginForm" action="/login" method="POST">
+      <div class="user-form__control">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
       </div>
-    <span><a class="RegisterUserHyperlink--item" href="/userRegistration">Are you new? Register here!</a></span>
-    <span><a class="workHyperlink--item" href="/adminLoginPage">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;You work with us?</a></span>
-  </form>
-</div>
-
-<script type="text/javascript" src="{{url_for('static', filename='js/userLoginPage.js')}}"></script>
-
+      <div class="user-form__control">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+      <div class="user-form__control">
+        <button type="submit" id="loginButton">Login</button>
+      </div>
+      <div class="link-buttons--style">
+        <span><a class="RegisterUserHyperlink--item" href="/userRegistration">Sign in</a></span>
+        <span><a class="workHyperlink--item" href="/adminLoginPage"><img
+              src="{{ url_for('static', filename='images/icons/worker-icon.png') }}" alt="back"
+              style="height:40px;"></a></span>
+      </div>
+    </form>
+  </div>
+  <script type="text/javascript" src="{{url_for('static', filename='js/userLoginPage.js')}}"></script>
 </body>
+
 </html>

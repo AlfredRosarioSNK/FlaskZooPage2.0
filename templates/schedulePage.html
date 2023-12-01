@@ -1,24 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js"></script>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/schedulePage.css') }}">
-  </head>
-  <body>
-    <div class="panel-top"></div>
-    <h1>WELCOME
-      {% if session['username'] %}
-        {{ session['username'] }}
-      {% endif %}
-      <a href="/">
-        <img src="{{ url_for('static', filename='images/icons/backButton-icon.png') }}" alt="back" style="height:40px;">   
-      </a> 
-    </h1>
-    <div id="calendar-container">
-      <div id="calendar"></div>
-    </div>
-    <div class="forms-container">
+
+<head>
+  <meta charset="utf-8" />
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/schedulePage.css') }}">
+</head>
+
+<body>
+  <div class="panel-top"></div>
+
+  <div id="calendar-container">
+    <a href="/" class="back-button">
+      <img src="{{ url_for('static', filename='images/icons/backButton-icon.png') }}" alt="back" style="height:40px;">
+    </a>
+    <div id="calendar"></div>
+  </div>
+
+  <div class="forms-container">
     <div class="scheduleForm--container">
       <form id="schedule-form">
         <label for="date-entry" class="form-label">Select a date entry</label>
@@ -40,27 +39,30 @@
         <button id="schedule-entry" type="button" class="form-button">Reserve an entry</button>
       </form>
     </div>
-<div id="confirmation-form-container" style="display:none;">
-  <form id="confirmation-form">
-    <div id="reservation-details">
+    <div id="confirmation-form-container" style="display:none;">
+      <form id="confirmation-form">
+        <div id="reservation-details">
+        </div>
+        <button id="proceed-to-payment" type="button" class="form-button">Proceed to Payment</button>
+        <button id="cancel-reservation" type="button" class="form-button">Cancel</button>
+      </form>
     </div>
-    <button id="proceed-to-payment" type="button" class="form-button">Proceder al Pago</button>
-    <button id="cancel-reservation" type="button" class="form-button">Cancelar</button>
-  </form>
-</div>
-</div>
-<div id="change-date-form-container" style="display:none;">
-  <form id="change-date-form">
-    <label for="new-date-entry" class="form-label">Seleccionar nueva fecha:</label>
-    <input type="date" id="new-date-entry" name="newDate" class="form-input">
-    <button id="submit-new-date" type="button" class="form-button">Confirmar nueva fecha</button>
-    <button id="cancel-change-date" type="button" class="form-button">Cancelar</button>
-  </form>
-</div>
-    <h1 id="tickets-heading" style="display: none;">Your Tickets:</h1>
-    <div id="tickets-container">
-    </div>
-    <script type="text/javascript" src="{{url_for('static', filename='js/schedulePage.js')}}"></script>
-    <div class="panel-bottom"></div>
-  </body>
+  </div>
+  <div id="change-date-form-container" style="display:none;">
+    <form id="change-date-form">
+      <label for="new-date-entry" class="form-label">Seleccionar nueva fecha:</label>
+      <input type="date" id="new-date-entry" name="newDate" class="form-input">
+      <button id="submit-new-date" type="button" class="form-button">Confirmar nueva fecha</button>
+      <button id="cancel-change-date" type="button" class="form-button">Cancelar</button>
+    </form>
+  </div>
+  <div class="ticket-title">
+    <h1 id="tickets-heading" style="display: none;">Your Tickets</h1>
+  </div>
+  <div id="tickets-container">
+  </div>
+  <script type="text/javascript" src="{{url_for('static', filename='js/schedulePage.js')}}"></script>
+  <div class="panel-bottom"></div>
+</body>
+
 </html>

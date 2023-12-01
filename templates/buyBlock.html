@@ -1,15 +1,17 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
 {% block buy %}
 <div class="buyBlock-container">
-<div id="linkToBuyTicket" class="image-container">
-  <img src="{{url_for('static', filename='/images/zooTicketsPic.png')}}">
-  <div class="buyBlock--imageText">
-    <p>Uncover the wonders of the animal kingdom! A thrilling adventure awaits you and your loved ones at our zoo. With
-      exhibits from every corner of the globe, our zoo is the perfect place to connect with nature and learn about the
-      magnificent creatures we share this world with. Don't miss out on this unforgettable experience</p>
-      <a class="scheduleEntry-Hyperlink--Item" href="{{ url_for('schedulePage') }}" data-is-logged-in="{{ is_logged_in }}">Do you want to schedule an entry?</a>
+  <div id="linkToBuyTicket" class="image-container">
+    <img src="{{url_for('static', filename='/images/zooTicketsPic.png')}}">
+    <div class="buyBlock--imageText">
+      <p>Uncover the wonders of the animal kingdom! A thrilling adventure awaits you and your loved ones at our zoo.
+        With
+        exhibits from every corner of the globe, our zoo is the perfect place to connect with nature and learn about the
+        magnificent creatures we share this world with. Don't miss out on this unforgettable experience</p>
+      <a class="scheduleEntry-Hyperlink--Item" href="{{ url_for('schedulePage') }}"
+        data-is-logged-in="{{ is_logged_in }}">Do you want to schedule an entry?</a>
+    </div>
   </div>
-</div>
 </div>
 <script type="text/javascript" src="{{url_for('static', filename='js/buyBlock.js')}}"></script>
 {% endblock %}

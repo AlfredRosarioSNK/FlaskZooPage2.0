@@ -401,11 +401,12 @@ def cancelDate():
 
         time_elapsed = (datetime.now() - reservation_time).total_seconds()
 
-        if time_elapsed <= 86400:
-            return jsonify({'status': 'modifiable', 'message': 'Modificable entry.'})
-        else:
+        # Verifica si el tiempo transcurrido es mayor a 24 horas (86400 segundos)
+        if time_elapsed <= 60:
             datesCollection.delete_one({'_id': ObjectId(event_id)})
             return jsonify({'status': 'success', 'message': 'Reserva cancelada exitosamente.'})
+        else:
+            return jsonify({'status': 'fail', 'message': 'Reserva no puede ser cancelada después de 24 horas.'})
     
     except Exception as e:
         print(f"Error en cancelDate: {e}")

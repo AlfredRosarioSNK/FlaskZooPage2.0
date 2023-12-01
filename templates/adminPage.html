@@ -1,26 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/adminPage.css') }}">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/adminPage.css') }}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
 </head>
+
 <body>
   <div class="admin-dashboard">
+    <a href="/">
+      <img src="{{ url_for('static', filename='images/icons/homeAdmin-icon.png') }}" alt="back" style="height:40px;">
+    </a>
     <h1>Admin Dashboard</h1>
     {% if session['adminUsername'] %}
-      <p>Welcome back, {{ session['adminUsername'] }}!</p>
-      <a href="{{ url_for('logout') }}" class="logout-button">Cerrar Sesión</a>
+    <p>Welcome back, {{ session['adminUsername'] }}!</p>
+    <a href="{{ url_for('logout') }}" class="logout-button">Cerrar Sesión</a>
     {% else %}
-      <p>You are not logged in as an admin.</p>
+    <p>You are not logged in as an admin.</p>
     {% endif %}
     <ul class="user-list">
       <ul class="user-list" id="userList">
       </ul>
-      
-  </ul>
-</div>
-<script type="text/javascript" src="{{url_for('static', filename='js/adminPage.js')}}"></script>
+
+    </ul>
+  </div>
+  <script type="text/javascript" src="{{url_for('static', filename='js/adminPage.js')}}"></script>
 </body>
+
 </html>

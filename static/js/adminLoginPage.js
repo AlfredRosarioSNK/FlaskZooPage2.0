@@ -1,28 +1,28 @@
-document.addEventListener('DOMContentLoaded', function() {
-    var form = document.querySelector('form');
+document.addEventListener('DOMContentLoaded', function () {
+  var form = document.querySelector('form');
 
-    form.addEventListener('submit', function(event) {
-      event.preventDefault();
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
 
-      var adminEmail = document.getElementById('email').value;
-      var adminPassword = document.getElementById('password').value;
+    var adminEmail = document.getElementById('email').value;
+    var adminPassword = document.getElementById('password').value;
 
-      var loginData = {
-        adminEmail: adminEmail,
-        adminPassword: adminPassword
-      };
+    var loginData = {
+      adminEmail: adminEmail,
+      adminPassword: adminPassword
+    };
 
-      fetch('/adminLogin', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(loginData)
-      })
+    fetch('/adminLogin', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(loginData)
+    })
       .then(response => response.json())
       .then(data => {
-        if(data.status === 'success') {
-          window.location.href = data.redirect; 
+        if (data.status === 'success') {
+          window.location.href = data.redirect;
         } else {
           alert('Login failed: ' + data.message);
         }
@@ -30,5 +30,5 @@ document.addEventListener('DOMContentLoaded', function() {
       .catch(error => {
         alert('There was a problem with the login: ' + error.message);
       });
-    });
   });
+});

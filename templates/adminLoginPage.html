@@ -1,36 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Registration</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/adminLoginPage.css') }}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Registration</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/adminLoginPage.css') }}">
 
 </head>
+
 <body>
-<div class="admin-form">
-  <a href="/">
-    <img src="{{ url_for('static', filename='images/icons/backButton-icon.png') }}" alt="back" style="height:40px;">   
-  </a> 
-  <h2>Admin login</h2>
-  <form method="POST">
-    <div class="form-control">
-      <label for="email">Email</label>
-      <input type="email" id="email" name="adminEmail" required>
-    </div>
-    <div class="form-control">
-      <label for="password">Password</label>
-      <input type="password" id="password" name="adminPassword" required>
-    </div>
-    <div class="form-control">
-      <input type="submit" value="Login">
-    </div>
-  </form>
-  
+  <div class="admin-form">
+    <a href="/">
+      <img src="{{ url_for('static', filename='images/icons/backButton-icon.png') }}" alt="back" style="height:40px;">
+    </a>
+    <h2>Admin login</h2>
+    <form method="POST">
+      <div class="form-control">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="adminEmail" required>
+      </div>
+      <div class="form-control">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="adminPassword" required>
+      </div>
+      <div class="form-control">
+        <input type="submit" value="Login">
+      </div>
+    </form>
 
-</div>
 
-<script type="text/javascript" src="{{url_for('static', filename='js/adminLoginPage.js')}}"></script>
+  </div>
+
+  <script type="text/javascript" src="{{url_for('static', filename='js/adminLoginPage.js')}}"></script>
 
 </body>
+
 </html>
