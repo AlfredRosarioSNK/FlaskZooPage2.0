@@ -40,9 +40,9 @@ collectionMammal = db['Mammals']
 
 paypalrestsdk.configure({
   "mode": "sandbox", 
-  "client_id": "AbjKwdLo3BCZGYEwe6RV2AOv8YfZHQp_mw22SIjZ3BgERdAlYirlRD4_If5a7Ig8H3-NezemnblSpOPI",
-  "client_secret": "EOxAlD-DUhFnD9QOZnhtCxQhEjwWijOcOe5tx5gpZj4t1uB3UGFB3mOyN3Z1bIIB2SOtQK-UL2eTTSg2" })
-
+  "client_id": os.getenv("PAYPAL_CLIENT_ID"),
+  "client_secret": os.getenv("PAYPAL_CLIENT_SECRET")
+})
 newsCollection = db['newsData']
 class CustomHTMLCalendar(calendar.HTMLCalendar):
     def __init__(self, year, month, day):
