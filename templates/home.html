@@ -1,40 +1,51 @@
 {% extends "base.html" %}
+
 {% block head %}
 {% endblock %}
+
 {% block body %}
-{% block header %}
-{% include 'headerBlock.html' %}
-{% endblock %}
-{% block carouselNavBar %}
-{% include 'carouselNavbarBlock.html' %}
-{% endblock %}
-{% block newsCalendar %}
-{% include 'scheduleCalendarBlock.html' %}
-{% endblock %}
-{% block animals %}
-{% include 'animals.html' %}
-{% endblock %}
-{% block news %}
-{% include 'newsBlock.html' %}
-{% endblock %}
-{% block video %}
-{% include 'videoBlock.html' %}
-{% endblock %}
-{% block buy %}
-{% include 'buyBlock.html' %}
-{% endblock %}
-{% block fundraise %}
-{% include 'fundraiseBlock.html' %}
-{% endblock %}
-{% block testimonialsAndfeedBack %}
-{% include 'testimonialsAndfeedBackBlock.html' %}
-{% endblock %}
-<img id="myBtn" onclick="topFunction()" title="Go to top"
-      src="{{url_for('static', filename='/images/icons/goUp-icon.png')}}">
-{% block socialMedia %}
-{% include 'socialMediaBlock.html' %}
-{% endblock %}
-{% block aboutUs %}
-{% include 'aboutUsBlock.html' %}
-{% endblock %}
+    {% block header %}
+        {% include 'headerBlock.html' %}
+    {% endblock %}
+
+    {% block carouselNavBar %}
+        {% include 'carouselNavbarBlock.html' %}
+    {% endblock %}
+
+    {% block newsCalendar %}
+        {% include 'scheduleCalendarBlock.html' %}
+    {% endblock %}
+
+    {% block animals %}
+        {% include 'animals.html' %}
+    {% endblock %}
+
+    {% block news %}
+        {% include 'newsBlock.html' %}
+    {% endblock %}
+
+    {% block video %}
+        {% include 'videoBlock.html' %}
+    {% endblock %}
+
+    {% block buy %}
+        {% include 'buyBlock.html' %}
+    {% endblock %}
+
+    {% block fundraise %}
+        {% include 'fundraiseBlock.html' %}
+    {% endblock %}
+
+    {% block testimonialsAndfeedBack %}
+        {% include 'testimonialsAndfeedBackBlock.html' %}
+    {% endblock %}
+
+    {% block socialMedia %}
+        {% include 'socialMediaBlock.html' %}
+    {% endblock %}
+
+    {% block aboutUs %}
+        {% include 'aboutUsBlock.html' %}
+    {% endblock %}
+
 {% endblock %}

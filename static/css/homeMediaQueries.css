@@ -1,0 +1,497 @@
+
+@media(max-width:1060px) {
+    .testimonial-box {
+      width: 45%;
+      padding: 10px;
+    }
+  }
+  
+  @media(max-width:790px) {
+    .testimonial-box {
+      width: 100%;
+    }
+  
+    .testimonial-heading h1 {
+      font-size: 1.4rem;
+    }
+  }
+  
+  @media(max-width:340px) {
+    .box-top {
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+  
+    .reviews {
+      margin-top: 10px;
+    }
+  }
+  
+
+@media screen and(max-width: 992px) {
+    .blog-section .section-content .cards {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media screen and(max-width: 768px) {
+    .blog-section .section-content .cards {
+      grid-template-columns: 1fr;
+    }
+  
+    .news-block {
+      margin-top: 5%;
+    }
+  }
+
+@media all and (min-width: 600px) {
+    .blockquote h1 {
+      font-size: 3rem;
+      line-height: 1.2;
+    }
+  }
+
+@media screen and (max-width: 600px) {
+    .navbar__link {
+      float: none;
+      display: block;
+      text-align: left;
+    }
+  }
+  
+  @media (max-width:390px) {
+    .icon-style {
+      width: 180px;
+      height: 180px;
+    }
+  
+    .icon-style img {
+      width: 150px;
+      height: 100px;
+      margin-top: 10%;
+    }
+  
+    .logo--Size {
+      max-height: 150px;
+    }
+  
+    .container {
+      margin: none;
+      max-width: 80%;
+    }
+  
+    .carousel-inner img {
+      width: 390px;
+      height: 400px;
+    }
+  
+    .carousel-caption {
+      top: 50%;
+      left: 50%;
+      transform: translate(-70%, -10%);
+      width: 100%;
+      color: #ffffff;
+    }
+  
+    .carousel-caption h5,
+    .carousel-caption p {
+      margin: 0;
+      text-align: start;
+      margin-left: 30%;
+    }
+  
+    .carousel-caption h5 {
+      font-size: 1.5rem;
+    }
+  
+    .carousel-caption p {
+      font-size: 1rem;
+    }
+  
+    .logo--Size {
+      width: 40%;
+      height: auto;
+    }
+  }
+  
+  @media (max-width: 850px) {
+    .news-calendar-container img {
+      display: none;
+    }
+  
+    .dropbtn {
+      display: none;
+    }
+  
+    #displayNone-NavBarItems {
+      display: none;
+    }
+  
+    .logo-map--style {
+      display: none;
+    }
+  
+    .logo-schedule--style {
+      display: none;
+    }
+  }
+  
+  @media (max-width: 850px) {
+    .news-calendar-container img {
+      display: none;
+    }
+  
+    .dropbtn {
+      display: none;
+    }
+  
+    #displayNone-NavBarItems {
+      display: none;
+    }
+  
+    .logo-map--style {
+      display: none;
+    }
+  
+    .logo-schedule--style {
+      display: none;
+    }
+  }
+  
+  @media (max-width: 1400px) {
+    .news-calendar-container {
+      flex-direction: column;
+      align-items: center;
+      width: 80%;
+    }
+  
+    .news-calendar-container img,
+    .news-block {
+      width: 100%;
+      transform: translateX(0);
+      margin-top: 5%;
+    }
+  }
+  
+  @media (max-width: 1200px) {
+    .animalIcons--container {
+      flex-direction: column;
+    }
+  
+    .icon-wrapper {
+      margin-bottom: 5%;
+      margin-top: 7%;
+    }
+  }
+  
+  @media (max-width: 680px) {
+    .testimonial-box-container {
+      margin-top: 10%;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .news-calendar-container {
+      margin-left: 12%;
+    }
+  
+    .news-calendar-container img {
+      display: none;
+    }
+  
+    .dropbtn {
+      display: none;
+    }
+  
+    #displayNone-NavBarItems {
+      display: none;
+    }
+  
+    .logo-map--style {
+      display: none;
+    }
+  
+    .search-form {
+      width: 70%;
+    }
+  
+    .video-section {
+      width: 768px;
+      height: 500px;
+      padding: 3%;
+    }
+  
+    .zooVideo-container {
+      margin-right: 5%;
+    }
+  
+    .image-container {
+      width: 80%;
+    }
+  
+    .buyBlock--imageText {
+      font-size: 2.2vw;
+    }
+  
+    .carousel-inner img {
+      height: 600px;
+    }
+  }
+  
+  .news-calendar-container .schedule {
+    flex: 1;
+    max-width: 100%;
+  }
+  
+  @media (max-width: 1950px) {
+    .video-section {
+      width: 1350px;
+      height: 800px;
+      padding: 3%;
+    }
+  }
+  
+  @media (max-width: 670px) {
+    .video-section {
+      width: 390px;
+      height: 250px;
+      padding: 3%;
+    }
+  
+    .zooVideo-container {
+      margin-right: 5%;
+    }
+  }
+  
+  @media(max-width:1060px) {
+    .testimonial-box {
+      width: 45%;
+      padding: 10px;
+    }
+  }
+  
+  @media(max-width:790px) {
+    .testimonial-box {
+      width: 100%;
+    }
+  
+    .testimonial-heading h1 {
+      font-size: 1.4rem;
+    }
+  }
+  
+  @media(max-width:340px) {
+    .box-top {
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+  
+    .reviews {
+      margin-top: 10px;
+    }
+  }
+  
+  @media (max-width:390px) {
+    .nav-item--style {
+      transform: translate(87%, -20%);
+    }
+  
+    .login-icon {
+      width: 30px;
+    }
+  
+    .logo--Size {
+      transform: translate(-35%, -10%);
+    }
+  
+    .middleNavBar-item,
+    .dropbtn {
+      padding: 12px 10px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .blockquote-wrapper {
+      margin-left: 77%;
+    }
+  
+    .blockquote h1 {
+      font-size: 1.8rem;
+    }
+  
+    .grid-container--fundraiseBlockLinks {
+      display: block;
+      margin-bottom: 10%;
+      margin-right: 61%;
+      padding: 5%;
+    }
+  
+    .fundraise-boxes--containerDimensions {
+      margin-top: 10%;
+    }
+  
+    .notLoggedFeedBackImageStyles {
+      height: auto;
+      width: 800px;
+      align-items: center;
+    }
+  
+    #testimonials {
+      margin-top: -15%;
+    }
+  
+    .image-container {
+      margin-top: 5%;
+    }
+  }
+  
+  @media (max-width:390px) {
+    #fundraise--individual {
+      transform: translate(0%, 5%);
+    }
+  
+    .grid-container--fundraiseBlockLinks {
+      margin-right: 0%;
+    }
+  
+    .fundraise-boxes--containerDimensions {
+      margin-left: 0%;
+      width: 100%;
+    }
+  
+    .buyBlock--imageText {
+      font-size: 2.9vw;
+    }
+  
+    .image-container {
+      height: 200px;
+      width: auto;
+    }
+  
+    .testimonial-heading {
+      margin: 11px 0px;
+    }
+  
+    #linkToAboutSection {
+      margin-top: 5%;
+    }
+  
+    .social-icons {
+      margin-top: 5%;
+    }
+  
+    .notLoggedFeedBackImageStyles img {
+      position: relative;
+      max-width: 89%;
+      max-height: 100%;
+      filter: brightness(30%);
+    }
+  
+    .notLoggedFeedBackImageStyles {
+      height: auto;
+      width: 391px;
+      align-items: center;
+    }
+  
+    .carousel-inner img {
+      height: 435px;
+    }
+  
+    .navbar {
+      width: auto;
+      height: 100%;
+    }
+  
+    .navbar__link {
+      padding: 4px 4px;
+      margin-top: 30%;
+      font-size: 16px;
+    }
+  
+    .logo--Size {
+      width: 205px;
+      height: auto;
+      transform: translate(-6%, 8%);
+    }
+  
+    #myBtn {
+      transform: translateX(-15px);
+    }
+  
+    .main-container {
+      overflow-x: hidden;
+    }
+  
+    .grid-container--fundraiseBlockLinks {
+      margin-left: 0%;
+    }
+  
+    .blockquote-wrapper {
+      margin-left: 0%;
+    }
+  
+    .fundraise-boxes--containerDimensions {
+      margin-left: 0%;
+    }
+  
+  
+    @media (min-width:2000px) {
+      .blockquote-wrapper {
+        margin-left: 0%;
+      }
+  
+      .fundraise-boxes--containerDimensions {
+        margin-left: 0%;
+      }
+  
+      .login-form {
+        transform: translate(-1%, -1%);
+        z-index: 99;
+      }
+    }
+  
+    @media screen and (max-width: 768px) {
+      .blog-section .section-content .cards {
+        grid-template-columns: 1fr;
+      }
+  
+      .card {
+        width: 100%;
+  
+      }
+  
+      #zooNavbar--item {
+        display: none;
+      }
+  
+      #fundraiseNavbar--item {
+        display: none;
+      }
+  
+      #separatorThree {
+        display: none;
+      }
+  
+      #separatorFive {
+        display: none;
+      }
+  
+      .calendar-container {
+        display: none;
+      }
+    }
+  }
+  
+  @media (max-width: 1350px){
+    .video-section {
+      width: 1050px;
+      height: 700px;
+      padding: 3%;
+    }
+}
+
+@media (max-width: 1500px) {
+  .blog-section .section-content .cards {
+    grid-template-columns: 1fr;
+}
+}

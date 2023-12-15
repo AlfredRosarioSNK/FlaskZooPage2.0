@@ -20,7 +20,7 @@ paypal.Button.render({
                 }
                 window.location.href = '/scheduleEntry?reservationId=' + reservationId;
             } else {
-                console.error('Error al procesar el pago.');
+                console.error('Processing payment error.');
             }
         });
     }

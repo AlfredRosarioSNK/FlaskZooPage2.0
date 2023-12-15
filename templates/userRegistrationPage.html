@@ -11,6 +11,9 @@
 
 <body>
   <div class="user-form">
+    <a href="/">
+      <img src="{{ url_for('static', filename='images/icons/backButton-icon.png') }}" alt="back" style="height:40px;">
+    </a>
     <h2>Registration</h2>
     <form>
       <div class="user-form__control">
@@ -44,7 +47,7 @@
       <div class="user-form__control">
         <input type="submit" value="Register">
       </div>
-      <span><a href="mailto:m.bluth@example.com"> Are you already registered? Log in here.</a></span>
+      <span><a class="logInUserHyperlink--item" href="/loginPage">Log in</a></span>
     </form>
   </div>
 

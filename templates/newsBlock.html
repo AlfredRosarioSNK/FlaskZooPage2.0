@@ -1,4 +1,6 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/homeMediaQueries.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/homeHeaderToContactForm.css') }}">
 {% block news %}
 <div class="blog-section">
   <div class="section-content blog">
@@ -8,17 +10,17 @@
     </div>
     <div class="cards" id="newsContainer">
     </div>
-    <button id="editAllNews" style="display: none;">Editar Todas las Noticias</button>
-    <button id="saveAllNews" style="display: none;">Guardar Todas las Noticias</button>
-    <button id="cancelAllNews" style="display: none;">Cancelar Edición</button>
+    <button id="editAllNews" style="display: none;">Edit</button>
+    <button id="saveAllNews" style="display: none;">Save</button>
+    <button id="cancelAllNews" style="display: none;">Cancel</button>
   </div>
 </div>
 <div id="imageEditModal" class="modal">
   <div class="modal-content">
-    <h4>Editar URL de la Imagen</h4>
+    <h4>Edit image url</h4>
     <input type="text" id="newImageUrlInput" placeholder="Nueva URL de la imagen">
-    <button id="submitImageUrlBtn">Enviar</button>
-    <button id="cancelImageUrlBtn">Cancelar</button>
+    <button id="submitImageUrlBtn">send</button>
+    <button id="cancelImageUrlBtn">Cancel</button>
   </div>
 </div>
 <script type="text/javascript" src="{{url_for('static', filename='js/newsBlock.js')}}"></script>

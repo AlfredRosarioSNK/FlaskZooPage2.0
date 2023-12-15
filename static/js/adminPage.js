@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 const li = document.createElement('li');
                 li.innerHTML = `
                   ${user.username} - Actual Rol: ${user.role}
-                  <button onclick="changeRole('${user._id}', '${user.role === 'admin' ? 'user' : 'admin'}')">Cambiar a ${user.role === 'admin' ? 'usuario' : 'admin'}</button>
+                  <button onclick="changeRole('${user._id}', '${user.role === 'admin' ? 'user' : 'admin'}')">Change role to ${user.role === 'admin' ? 'user' : 'admin'}</button>
               `;
                 userList.appendChild(li);
             });

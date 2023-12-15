@@ -1,4 +1,6 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/homeMediaQueries.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/homeHeaderToContactForm.css') }}">
 {% block header %}
 <div id="messageAlert" class="alert" style="display: none;"></div>
 <div id="message"></div>
@@ -6,7 +8,7 @@
 <input type="hidden" id="loginUrl" value="{{ url_for('login') }}">
 <div class="menu-Block--DimensionPosition">
   <header>
-    <img class="logo--Size" src="{{ url_for('static', filename='/images/Logo/Logo.png') }}">
+    <img class="logo--Size" src="{{ url_for('static', filename='/images/logo/logo.png') }}">
     <div class="navbar">
       {% if session['adminUsername'] %}
       <span class="navbar__link">Hello, {{ session['adminUsername'] }}!</span>
@@ -16,11 +18,11 @@
       {% else %}
       {% if session['username'] %}
       <span class="navbar__link">Hello, {{ session['username'] }}!</span>
-      <a href="{{ url_for('logout') }}" class="navbar__link navbar__link--hover">Logout</a>
+      <a href="{{ url_for('logout') }}" class="navbar__link navbar__link--hover">Log out</a>
       <a href="{{ url_for('schedulePage') }}" id="getEntryLink" class="navbar__link navbar__link--hover">Get an
         entry</a>
       {% else %}
-      <a href="{{ url_for('loginPage') }}" class="navbar__link navbar__link--hover">Login</a>
+      <a href="{{ url_for('loginPage') }}" class="navbar__link navbar__link--hover">Log in</a>
       {% endif %}
       {% endif %}
     </div>
@@ -31,18 +33,4 @@
   <input type="hidden" id="isLoggedIn" value="{{ 'true' if session.get('username') else 'false' }}">
   <input type="hidden" id="loginUrl" value="{{ url_for('loginPage') }}">
 </div>
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const getEntryLink = document.getElementById('getEntryLink');
-    const isLoggedIn = document.getElementById('isLoggedIn').value === 'true';
-    const loginUrl = document.getElementById('loginUrl').value;
-    getEntryLink.addEventListener('click', function (event) {
-      if (!isLoggedIn) {
-        event.preventDefault();
-        alert('You need to be logged in to get an entry.');
-        window.location.href = loginUrl;
-      }
-    });
-  });
-</script>
 {% endblock %}

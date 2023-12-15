@@ -45,3 +45,12 @@ body {
 .user-form__control input[type="submit"]:hover {
   background-color: #4cae4c;
 }
+
+.logInUserHyperlink--item {
+  color: inherit;
+  text-decoration: none;
+}
+
+.logInUserHyperlink--item:hover {
+  color: #dda15e;
+}

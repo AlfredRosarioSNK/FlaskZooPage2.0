@@ -111,7 +111,7 @@ function saveAllNewsFunction() {
   })
     .then(response => response.json())
     .then(data => {
-      alert('Noticias actualizadas con éxito');
+      alert('News successfully updated');
     })
     .catch(error => {
       console.error('Error:', error);
@@ -143,8 +143,6 @@ function cancelAllNewsFunction() {
   isEditing = false;
 }
 
-
-
 function submitImageUrlFunction() {
   const newUrl = document.getElementById('newImageUrlInput').value;
   const newsId = document.getElementById('imageEditModal').getAttribute('data-news-id');
@@ -159,9 +157,9 @@ function submitImageUrlFunction() {
     .then(data => {
       if (data.status === 'success') {
         document.querySelector(`#newsImage${newsId}`).src = newUrl;
-        alert('Imagen actualizada con éxito');
+        alert('Image updated successfully');
       } else {
-        alert('Error al actualizar la imagen');
+        alert('Error updating the image');
       }
     })
     .catch(error => {

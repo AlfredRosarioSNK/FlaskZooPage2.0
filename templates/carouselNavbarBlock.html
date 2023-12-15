@@ -1,10 +1,12 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/homeMediaQueries.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/homeHeaderToContactForm.css') }}">
 {% block carouselNavBar%}
 <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
   <div class="carousel-inner">
     <div class="carousel-item active">
       <div class="d-block">
-        <img src="{{url_for('static', filename='/images/homeGalapagos.jpg')}}" class="w-100" alt="...">
+        <img src="{{url_for('static', filename='/images/homePics/homeGalapagos.jpg')}}" class="w-100" alt="...">
         <div class="carousel-caption" style="margin-top: 3%;">
           <h5>Come and have some fun with Seamus the seal!</h5>
           <p>Come witness the wonder of Seamus and his seal pals at our new seal attraction!</p>
@@ -13,7 +15,7 @@
     </div>
     <div class="carousel-item">
       <div class="d-block">
-        <img src="{{url_for('static', filename='/images/homeLeon.jpg')}}" class="w-100" alt="...">
+        <img src="{{url_for('static', filename='/images/homePics/homeLeon.jpg')}}" class="w-100" alt="...">
         <div class="carousel-caption">
           <h5>Roar Along with Our Majestic Lions!</h5>
           <p>Experience the thrill of the jungle as you watch our proud lion pride during our exciting lion event!</p>
@@ -22,7 +24,7 @@
     </div>
     <div class="carousel-item">
       <div class="d-block">
-        <img src="{{url_for('static', filename='/images/homeTiger.jpg')}}" class="w-100" alt="...">
+        <img src="{{url_for('static', filename='/images/homePics/homeTiger.jpg')}}" class="w-100" alt="...">
         <div class="carousel-caption" style="margin-top: 2%;">
           <h5>Unleash Your Wild Side with Our Tigers!</h5>
           <p>Join us for an exhilarating day in the tiger enclosure and witness the majestic stripes of our tigers up
@@ -70,7 +72,7 @@
 <div id="mapModal" class="modal">
   <div class="modal-content">
     <span class="close">&times;</span>
-    <img class="modal-map" src="{{url_for('static', filename='images/zooMap.jpg')}}" alt="Map" style="width:100%">
+    <img class="modal-map" src="{{url_for('static', filename='images/homePics/zooMap.jpg')}}" alt="Map" style="width:100%">
   </div>
 </div>
 {% endblock %}

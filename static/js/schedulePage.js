@@ -46,8 +46,8 @@ function loadTickets() {
                               </section>
                               <section>
                                   <div class="title">Ticket ID: ${ticket.id}</div>
-                                  <button onclick="cancelReservation('${ticket.id}')" class="cancel-button">Cancelar</button>
-                                  <button onclick="attemptChangeDate('${ticket.id}', '${ticket.start}')" class="change-date-button">Cambiar fecha</button>
+                                  <button onclick="cancelReservation('${ticket.id}')" class="cancel-button">Cancel</button>
+                                  <button onclick="attemptChangeDate('${ticket.id}', '${ticket.start}')" class="change-date-button">Change date</button>
                               </section>
                           </div>
                       </div>
@@ -75,7 +75,7 @@ function attemptChangeDate(ticketId, currentStartDate) {
                 .then(response => response.json())
                 .then(data => {
                     if (data.status === 'success') {
-                        alert('Fecha cambiada con éxito.');
+                        alert('Date changed successfully.');
                         loadTickets();
                         reloadCalendarEvents();
                         document.getElementById("change-date-form-container").style.display = "none";
@@ -85,7 +85,7 @@ function attemptChangeDate(ticketId, currentStartDate) {
                 })
                 .catch(error => console.error('Error:', error));
         } else {
-            alert("Por favor, selecciona una nueva fecha.");
+            alert("Please, select a new date.");
         }
     };
 
@@ -102,7 +102,7 @@ function reloadCalendarEvents() {
                 calendar.addEvent(event);
             });
         })
-        .catch(error => console.error('Error al cargar eventos:', error));
+        .catch(error => console.error('Error loading events:', error));
 }
 
 
@@ -138,10 +138,11 @@ document.getElementById("schedule-entry").addEventListener("click", function () 
                     }));
                     document.getElementById("confirmation-form-container").style.display = "block";
                     document.getElementById("reservation-details").innerHTML = `
-              <p>Fecha: ${dateEntry}</p>
-              <p>Nombre: ${nameEntry} ${lastNameEntry}</p>
-              <p>Número de visitantes: ${numberOfVisitors}</p>
-              <p>Tour guiado: ${guidedTourConfirmationValue}</p>
+              <p>Date: ${dateEntry}</p>
+              <p>Name: ${nameEntry} ${lastNameEntry}</p>
+              <p>Number of visitors: ${numberOfVisitors}</p>
+              <p>Guided tour: ${guidedTourConfirmationValue}</p>
+              <p>Total: 1000$</p>
           `;
                 } else {
                     alert(data.message);
@@ -181,7 +182,7 @@ document.getElementById("proceed-to-payment").addEventListener("click", function
     if (reservationId) {
         window.location.href = `/paymentProcessing?reservationId=${reservationId}`;
     } else {
-        alert("No hay una reserva pendiente de pago.");
+        alert("There is no reservation pending payment.");
     }
 });
 
@@ -213,7 +214,7 @@ function confirmPaymentAfterRedirect() {
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'success') {
-                    alert('Reserva confirmada con éxito.');
+                    alert('Reservation successfully confirmed.');
                     sessionStorage.removeItem('reservationId');
                 } else {
                     alert(data.message);

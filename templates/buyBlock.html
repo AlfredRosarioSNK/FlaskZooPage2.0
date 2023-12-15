@@ -1,8 +1,11 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/homeMediaQueries.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/homeHeaderToContactForm.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/homeHeaderToContactForm.css') }}">
 {% block buy %}
 <div class="buyBlock-container">
   <div id="linkToBuyTicket" class="image-container">
-    <img src="{{url_for('static', filename='/images/zooTicketsPic.png')}}">
+    <img src="{{url_for('static', filename='/images/homePics/zooTicketsPic.png')}}">
     <div class="buyBlock--imageText">
       <p>Uncover the wonders of the animal kingdom! A thrilling adventure awaits you and your loved ones at our zoo.
         With

@@ -1,11 +1,13 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/homeMediaQueries.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/homeHeaderToContactForm.css') }}">
 {% block newsCalendar %}
 <div class="news-calendar-container">
-  <img clas="lion-event--image" src="{{url_for('static', filename='images/lion-event.png')}}">
+  <img clas="lion-event--image" src="{{url_for('static', filename='images/homePics/lion-event.png')}}">
 
-  <div class="calendar-container floating-container">
+  <div class="calendar-container floating-container hidden">
     {{ calendarHtml | safe }}
-  </div>
+  </div>  
   <div class="news-block">
     <p class="news-block--date">{{ current_date }}</p>
     <p class="news-block--title">Schedule</p>

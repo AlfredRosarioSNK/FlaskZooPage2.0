@@ -69,5 +69,6 @@ Feel free to tailor this tutorial to your specific needs and project details.
     ```shell
     MONGO_CLIENT=mongodb+srv://GuestUserZooPage:L3aW3xquOqie0SPJ@webzoocluster.eja6fb6.mongodb.net/
 
+**Note**: The `MONGO_CLIENT` value (`mongodb+srv://GuestUserZooPage:L3aW3xquOqie0SPJ@webzoocluster.eja6fb6.mongodb.net/`) represents a user with read access to the database made it just for you!.
 
 2. Add the `.env` file to your `.gitignore` to ensure it is not pushed to version control.
