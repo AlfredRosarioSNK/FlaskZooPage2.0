@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Reservation Confirmation</title>
+</head>
+<body>
+    <h1>Thank you for your reservation at Alfred's Zoo!</h1>
+    <p>Hello {{ reservation.name }},</p>
+    <p>We are excited to confirm your visit to Alfred's Zoo!</p>
+    <p>Here are the details of your reservation:</p>
+    <ul>
+        <li>Date: {{ reservation.fecha }}</li>
+        <li>Number of Visitors: {{ reservation.visitors }}</li>
+        <li>Guided Tour: {{ reservation.guidedTour }}</li>
+    </ul>
+    <p>We look forward to seeing you soon!</p>
+</body>
+</html>

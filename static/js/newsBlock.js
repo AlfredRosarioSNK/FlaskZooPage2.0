@@ -2,173 +2,245 @@ const isAdmin = document.body.getAttribute('data-is-admin') === 'true';
 let isEditing = false;
 
 document.addEventListener('DOMContentLoaded', function () {
+  console.log("DOMContentLoaded event fired");
   fetch('/api/news')
     .then(response => response.json())
     .then(newsArray => {
       const newsContainer = document.getElementById('newsContainer');
+      let activeNewsCount = 0;
+
       newsArray.forEach(newsItem => {
-        const newsCard = createNewsCard(newsItem);
-        newsContainer.appendChild(newsCard);
+        if (newsItem.isActive) {
+          const newsCard = createNewsCard(newsItem);
+          newsContainer.appendChild(newsCard);
+          activeNewsCount++;
+        }
       });
+
+      adjustNewsLayout();
+
+      if (activeNewsCount >= 3) {
+        document.getElementById('retrieveNewsButton').style.display = 'none';
+      }
     })
     .catch(error => console.error('Error:', error));
-
-  if (isAdmin) {
-    document.getElementById('editAllNews').style.display = 'block';
-    document.getElementById('editAllNews').addEventListener('click', editAllNewsFunction);
-  }
-
-  document.getElementById('saveAllNews').addEventListener('click', saveAllNewsFunction);
-  document.getElementById('cancelAllNews').addEventListener('click', cancelAllNewsFunction);
-  document.getElementById('submitImageUrlBtn').addEventListener('click', submitImageUrlFunction);
-  document.getElementById('cancelImageUrlBtn').addEventListener('click', cancelImageUrlFunction);
 });
 
 function createNewsCard(newsItem) {
   const card = document.createElement('div');
+  let newsId = newsItem._id.$oid || newsItem._id;
   card.className = 'card';
-  let newsIdStr = newsItem._id.$oid || newsItem._id;
-  card.setAttribute('data-news-id', newsIdStr);
+  card.setAttribute('data-news-id', newsId);
+  
+  let cardFooterHTML = '';
+  if (isAdmin) {
+    cardFooterHTML = `
+      <div class="card-footer">
+        <i class="fas fa-edit edit-icon" onclick="editNews('${newsId}')"></i>
+        <i class="fas fa-trash-alt delete-icon" onclick="hideNews('${newsId}')"></i>
+      </div>
+    `;
+  }
+
+  let formattedDate = "Fecha no disponible";
+  if (newsItem.publishedDate) {
+    const timestamp = Date.parse(newsItem.publishedDate);
+    if (!isNaN(timestamp)) {
+      formattedDate = new Date(timestamp).toLocaleDateString("es-ES"); 
+    }
+  }
 
   card.innerHTML = `
+    <div class="card-header"></div>
     <div class="image-section">
-        <img class="news-image" ${isAdmin ? 'contenteditable="true"' : ''} id="newsImage${newsIdStr}" src="${newsItem.image}">
+      <img class="news-image" ${isAdmin ? 'contenteditable="true"' : ''} id="newsImage${newsId}" src="${newsItem.image}">
     </div>
     <div class="article">
-        <h4 class="news-title" contenteditable="false" id="newsTitle${newsIdStr}">${newsItem.titular}</h4>
-        <p class="news-content" contenteditable="false" id="newsContent${newsIdStr}">${newsItem.content}</p>
+      <h4 class="news-title" contenteditable="false" id="newsTitle${newsId}">${newsItem.titular}</h4>
+      <p class="news-content" contenteditable="false" id="newsContent${newsId}">${newsItem.content}</p>
     </div>
     <div class="posted-date">
-        <p class="news-date" id="newsDate${newsIdStr}">${newsItem.publishedDate}</p>
+      <p class="news-date" id="newsDate${newsId}">${formattedDate}</p>
+      ${cardFooterHTML}
     </div>
   `;
 
-  if (isAdmin) {
-    const imageElement = card.querySelector('.news-image');
-    imageElement.addEventListener('click', function () {
-      if (isEditing) {
-        document.getElementById('imageEditModal').style.display = 'block';
-        document.getElementById('newImageUrlInput').value = this.src;
-        document.getElementById('imageEditModal').setAttribute('data-news-id', newsIdStr);
-      }
-    });
-  }
-
-
   return card;
-}
-
-function editAllNewsFunction() {
-  document.querySelectorAll('.card').forEach(function (card) {
-    const title = card.querySelector('.news-title');
-    const content = card.querySelector('.news-content');
-    const image = card.querySelector('.news-image');
-    const date = card.querySelector('.news-date');
-    card.setAttribute('data-original-title', title.textContent);
-    card.setAttribute('data-original-content', content.textContent);
-    card.setAttribute('data-original-image', image.src);
-    card.setAttribute('data-original-date', date.textContent);
-    title.contentEditable = true;
-    content.contentEditable = true;
-    image.contentEditable = true;
-    date.contentEditable = true;
-  });
-  document.getElementById('editAllNews').style.display = 'none';
-  document.getElementById('saveAllNews').style.display = 'block';
-  document.getElementById('cancelAllNews').style.display = 'block';
-  isEditing = true;
-}
-function saveAllNewsFunction() {
-  const updatedNews = [];
-  const newsIds = [];
-  document.querySelectorAll('.card').forEach(function (card) {
-    const newsId = card.getAttribute('data-news-id');
-    const title = card.querySelector('.news-title').textContent;
-    const content = card.querySelector('.news-content').textContent;
-    const imageSrc = card.querySelector('.news-image').src;
-    const publishedDate = card.querySelector('.news-date').textContent;
-    if (newsId) {
-      newsIds.push(newsId);
-      updatedNews.push({
-        titular: title,
-        content: content,
-        image: imageSrc,
-        publishedDate: publishedDate
-      });
-    }
-  });
-
-  const payload = {
-    updatedNews: updatedNews,
-    newsIds: newsIds
-  };
-  fetch('/api/news/updateMultiple', {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(payload)
-  })
-    .then(response => response.json())
-    .then(data => {
-      alert('News successfully updated');
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
-
-  document.getElementById('editAllNews').style.display = 'block';
-  document.getElementById('saveAllNews').style.display = 'none';
-  document.getElementById('cancelAllNews').style.display = 'none';
-}
-
-function cancelAllNewsFunction() {
-  document.querySelectorAll('.card').forEach(function (card) {
-    const title = card.querySelector('.news-title');
-    const content = card.querySelector('.news-content');
-    const image = card.querySelector('.news-image');
-    const date = card.querySelector('.news-date');
-    title.textContent = card.getAttribute('data-original-title');
-    content.textContent = card.getAttribute('data-original-content');
-    image.src = card.getAttribute('data-original-image');
-    date.textContent = card.getAttribute('data-original-date');
-    title.contentEditable = false;
-    content.contentEditable = false;
-    image.contentEditable = false;
-    date.contentEditable = false;
-  });
-  document.getElementById('editAllNews').style.display = 'block';
-  document.getElementById('saveAllNews').style.display = 'none';
-  document.getElementById('cancelAllNews').style.display = 'none';
-  isEditing = false;
-}
-
-function submitImageUrlFunction() {
-  const newUrl = document.getElementById('newImageUrlInput').value;
-  const newsId = document.getElementById('imageEditModal').getAttribute('data-news-id');
-  fetch(`/api/news/updateImage/${newsId}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ newImageUrl: newUrl })
-  })
-    .then(response => response.json())
-    .then(data => {
-      if (data.status === 'success') {
-        document.querySelector(`#newsImage${newsId}`).src = newUrl;
-        alert('Image updated successfully');
-      } else {
-        alert('Error updating the image');
-      }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
-
-  document.getElementById('imageEditModal').style.display = 'none';
 }
 
 function cancelImageUrlFunction() {
   document.getElementById('imageEditModal').style.display = 'none';
 }
+
+function editNews(newsId) {
+  const title = document.querySelector(`#newsTitle${newsId}`).textContent;
+  const content = document.querySelector(`#newsContent${newsId}`).textContent;
+  const image = document.querySelector(`#newsImage${newsId}`).src;
+
+  const originalDate = document.querySelector(`#newsDate${newsId}`).textContent;
+  let dateISO = '';
+
+  if (originalDate && !isNaN(Date.parse(originalDate))) {
+    dateISO = new Date(originalDate).toISOString().substring(0, 16);
+  }
+
+  const today = new Date();
+  const maxDate = today.toISOString().substring(0, 16);
+
+  const editNewsDateTime = document.getElementById('editNewsDateTime');
+  editNewsDateTime.value = dateISO;
+  editNewsDateTime.max = maxDate;
+
+  document.getElementById('editNewsTitle').value = title;
+  document.getElementById('editNewsContent').value = content;
+  document.getElementById('editNewsImage').value = image;
+
+  document.getElementById('editNewsModal').style.display = 'block';
+  document.getElementById('editNewsModal').setAttribute('data-news-id', newsId);
+}
+
+function closeEditModal() {
+  document.getElementById('editNewsModal').style.display = 'none';
+}
+
+function submitNewsEdit() {
+  const newsId = document.getElementById('editNewsModal').getAttribute('data-news-id');
+  const updatedTitle = document.getElementById('editNewsTitle').value;
+  const updatedContent = document.getElementById('editNewsContent').value;
+  const updatedImage = document.getElementById('editNewsImage').value;
+  
+  const updatedDateTime = document.getElementById('editNewsDateTime').value;
+
+  const updatedNewsData = {
+    titular: updatedTitle,
+    content: updatedContent,
+    image: updatedImage,
+    publishedDate: updatedDateTime 
+  };
+
+  fetch(`/api/news/${newsId}`, {
+    method: 'PUT',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(updatedNewsData)
+  })
+  .then(response => {
+    if (response.ok) {
+      alert('Noticia actualizada exitosamente');
+      location.reload(); 
+    } else {
+      alert('Error updating news');
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    alert('Error updating news');
+  });
+
+  closeEditModal();
+}
+function hideNews(newsId) {
+  fetch(`/api/news/${newsId}`, { 
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+  })
+  .then(response => {
+      if (response.ok) {
+        const newsCard = document.querySelector(`[data-news-id="${newsId}"]`);
+        if (newsCard) {
+          newsCard.remove();
+          adjustNewsLayout();
+        }
+          newsCard.remove();
+          adjustNewsLayout();
+      } else {
+          alert('Error hiding the news');
+      }
+      location.reload();
+  })
+  .catch(error => console.error('Error:', error));
+}
+function adjustNewsLayout() {
+  const newsContainer = document.getElementById('newsContainer');
+  const blogSection = document.querySelector('.blog-section');
+
+  const hasNewsCards = newsContainer.children.length > 0;
+
+  if (hasNewsCards) {
+    blogSection.style.display = '';
+    switch (newsContainer.children.length) {
+      case 1:
+        newsContainer.style.gridTemplateColumns = '1fr';
+        break;
+      case 2:
+        newsContainer.style.gridTemplateColumns = '1fr 1fr';
+        break;
+      case 3:
+        newsContainer.style.gridTemplateColumns = 'repeat(3, 1fr)';
+        break;
+      default:
+        newsContainer.style.gridTemplateColumns = 'repeat(auto-fill, minmax(300px, 1fr))'; 
+        break;
+    }
+  } else {
+    blogSection.style.display = 'none';
+  }
+}
+
+function addNews() {
+  fetch('/api/news/retrieve', { method: 'GET' })
+      .then(response => response.json())
+      .then(newsArray => {
+          if (newsArray && newsArray.length > 0) {
+              const newsContainer = document.getElementById('newsContainer');
+              newsArray.forEach(newsItem => {
+                  const newsCard = createNewsCard(newsItem);
+                  newsContainer.appendChild(newsCard);
+              });
+              adjustNewsLayout();
+          } else {
+              alert('No news to retrieve.');
+          }
+
+          document.getElementById('addNewsButton').style.display = 'none';
+      })
+      .catch(error => {
+          console.error('Error retrieving news:', error);
+          alert('Error retrieving news');
+      });
+}
+
+function retrieveOneNews() {
+  fetch('/api/news/retrieveOne', {
+      method: 'PUT',
+      headers: {
+          'Content-Type': 'application/json'
+      }
+  })
+  .then(response => response.json())
+  .then(data => {
+      if (data.status === 'success') {
+          alert('news retrieved successfully');
+          location.reload();
+      } else {
+          alert('Error retrieving the news');
+      }
+  })
+  .catch(error => console.error('Error:', error));
+}
+
+function checkNewsVisibility() {
+  fetch('/api/news')
+      .then(response => response.json())
+      .then(newsArray => {
+          const hiddenNews = newsArray.filter(news => !news.isActive);
+          if (hiddenNews.length === 0) {
+              document.getElementById('retrieveNewsButton').style.display = 'none';
+          }
+      })
+      .catch(error => console.error('Error:', error));
+}
+

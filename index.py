@@ -15,6 +15,7 @@ import json
 import os
 from dotenv import load_dotenv
 from werkzeug.security import generate_password_hash, check_password_hash
+from dateutil import parser
 import paypalrestsdk
 app = Flask(__name__, static_folder='static')
 load_dotenv()
@@ -402,7 +403,7 @@ def cancelDate():
 
         time_elapsed = (datetime.now() - reservation_time).total_seconds()
 
-        if time_elapsed <= 60:
+        if time_elapsed <= 86400:
             datesCollection.delete_one({'_id': ObjectId(event_id)})
             return jsonify({'status': 'success', 'message': 'Reservation successfully canceled.'})
         else:
@@ -519,6 +520,7 @@ def execute():
     return jsonify({'success' : success})
 
 @app.route('/api/confirmPayment', methods=['POST'])
+@app.route('/api/confirmPayment', methods=['POST'])
 def confirmPayment():
     if 'username' not in session:
         return jsonify({'status': 'fail', 'message': 'Unauthenticated user.'}), 401
@@ -537,9 +539,23 @@ def confirmPayment():
     )
 
     if update_result.modified_count == 1:
+        send_reservationEmail(session['username'], reservation)
         return jsonify({'status': 'success', 'message': 'Payment confirmed, schedule updated.'})
     else:
         return jsonify({'status': 'fail', 'message': 'The entry cant be updated.'}), 500
+
+def send_reservationEmail(username, reservation_details):
+    user = db.users.find_one({'username': username})
+    if not user or not user.get('email'):
+        print("No email found for the user")
+        return
+
+    email = user['email']
+    message_body = render_template('reservationEmail.html', reservation=reservation_details)
+    subject = "Your Reservation at Alfred's Zoo"
+    message = Message(subject, recipients=[email], html=message_body, sender='alfredsnk@gmail.com')
+    mail.send(message)
+
 
 @app.route('/api/getUsers', methods=['GET'])
 def getUsers():
@@ -558,7 +574,6 @@ def updateUserRole():
         new_role = data['new_role']
         db.users.update_one({'_id': ObjectId(user_id)}, {'$set': {'role': new_role}})
         
-        # Verificar si el usuario actual cambió su propio rol
         if session['adminUsername'] == user_id:
             session['role'] = new_role
 
@@ -575,13 +590,6 @@ def admin_required(f):
             return jsonify({'message': 'Unauthorized access'}), 403
     return decorated_function
 
-
-@app.route('/api/news', methods=['GET'])
-def getAllNews():
-        newsItems = newsCollection.find({})
-        newsList = [json.loads(json_util.dumps(newsItem)) for newsItem in newsItems]
-        return jsonify(newsList)
-
 @app.route('/api/news/<newsId>', methods=['GET'])
 def getSingleNews(newsId):
     if 'adminUsername' in session:
@@ -597,22 +605,13 @@ def getSingleNews(newsId):
 def updateNews(newsId):
     if 'adminUsername' in session:
         data = request.json
+        if 'publishedDate' in data:
+            data['publishedDate'] = parser.parse(data['publishedDate'])
         updateResult = newsCollection.update_one({'_id': ObjectId(newsId)}, {'$set': data})
         if updateResult.modified_count == 1:
             return jsonify({'message': 'News updated succesfully'})
         else:
             return jsonify({'message': 'News cant be updated'}), 500
-    else:
-        return jsonify({'message': 'Unauthorized access'}), 403
-
-@app.route('/api/news/<newsId>', methods=['DELETE'])
-def deleteNews(newsId):
-    if 'adminUsername' in session:
-        deleteResult = newsCollection.delete_one({'_id': ObjectId(newsId)})
-        if deleteResult.deleted_count == 1:
-            return jsonify({'message': 'News successfully deleted'})
-        else:
-            return jsonify({'message': 'The news could not be deleted'}), 404
     else:
         return jsonify({'message': 'Unauthorized access'}), 403
     
@@ -633,14 +632,16 @@ def get_news_by_id(news_id):
 
 @app.route('/api/news/<news_id>', methods=['PUT'])
 @admin_required
-def update_news(news_id, update_data):
+def update_news(news_id):
     try:
-        update_result = newsCollection.update_one({'_id': ObjectId(news_id)}, {'$set': update_data})
-        return update_result.modified_count == 1
+        data = request.json
+        update_result = newsCollection.update_one({'_id': ObjectId(news_id)}, {'$set': data})
+        if update_result.modified_count == 1:
+            return jsonify({'message': 'News updated successfully'})
+        else:
+            return jsonify({'message': 'News could not be updated'}), 500
     except Exception as e:
-        print(f"Error updating news with ID {news_id}: {e}")
-        return False
-    pass
+        return jsonify({'message': str(e)}), 500
 
 @app.route('/api/news', methods=['POST'])
 @admin_required
@@ -651,16 +652,6 @@ def create_news(news_data):
     except Exception as e:
         print(f"Error when creating a new news: {e}")
         return None
-    pass
-@app.route('/api/news/<news_id>', methods=['DELETE'])
-@admin_required
-def delete_news(news_id):
-    try:
-        delete_result = newsCollection.delete_one({'_id': ObjectId(news_id)})
-        return delete_result.deleted_count == 1
-    except Exception as e:
-        print(f"Error when deleting the news with ID {news_id}: {e}")
-        return False
     pass
 
 @app.route('/api/news/updateMultiple', methods=['PUT'])
@@ -709,6 +700,53 @@ def update_news_image(newsId):
     except Exception as e:
         print(f"Error updating image: {e}")
         return jsonify({'status': 'fail', 'message': str(e)}), 500
+    
+@app.route('/api/news/<news_id>', methods=['DELETE'])
+@admin_required
+def hide_news(news_id):
+    try:
+        hide_result = newsCollection.update_one(
+            {'_id': ObjectId(news_id)},
+            {'$set': {'isActive': False}}
+        )
+        if hide_result.modified_count == 1:
+            return jsonify({'message': 'News successfully hidden'})
+        else:
+            return jsonify({'message': 'News could not be hidden'}), 404
+    except Exception as e:
+        return jsonify({'message': str(e)}), 500
+    
+@app.route('/api/news', methods=['GET'])
+def get_all_active_news():
+    try:
+        news_items = newsCollection.find({'isActive': True})
+        news_list = []
+        for news_item in news_items:
+            if 'publishedDate' in news_item and isinstance(news_item['publishedDate'], datetime):
+                news_item['publishedDate'] = news_item['publishedDate'].isoformat()
+            news_list.append(news_item)
+        return jsonify([json.loads(json_util.dumps(news)) for news in news_list])
+    except Exception as e:
+        print(f"Error getting active news: {e}")
+        return jsonify({'message': str(e)}), 500
+
+
+@app.route('/api/news/retrieveOne', methods=['PUT'])
+@admin_required
+def retrieve_one_news():
+    hidden_news = newsCollection.find_one({'isActive': False})
+    if hidden_news:
+        news_id = hidden_news['_id']
+        update_result = newsCollection.update_one(
+            {'_id': news_id},
+            {'$set': {'isActive': True}}
+        )
+        if update_result.modified_count == 1:
+            return jsonify({'status': 'success', 'message': 'News successfully retrieved'})
+        else:
+            return jsonify({'status': 'fail', 'message': 'News could not be retrieved'}), 500
+    else:
+        return jsonify({'status': 'fail', 'message': 'No hidden news found'}), 404
 
 googleCredentialsPath = os.getenv('GOOGLE_APPLICATION_CREDENTIALS')
 creds = service_account.Credentials.from_service_account_file(
@@ -725,3 +763,4 @@ bucket = storageClient.bucket(bucket_name)
 if __name__ == '__main__':
 
     app.run(debug=True)
+

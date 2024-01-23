@@ -1,6 +1,7 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/homeMediaQueries.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/homeHeaderToContactForm.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 {% block news %}
 <div class="blog-section">
   <div class="section-content blog">
@@ -10,18 +11,25 @@
     </div>
     <div class="cards" id="newsContainer">
     </div>
-    <button id="editAllNews" style="display: none;">Edit</button>
-    <button id="saveAllNews" style="display: none;">Save</button>
-    <button id="cancelAllNews" style="display: none;">Cancel</button>
+  </div>
+  
+</div>
+
+{% if session['adminUsername'] %}
+<div id="editNewsModal" class="news-edit-modal">
+  
+  <div class="news-edit-modal__content">
+    <span class="news-edit-modal__close" onclick="closeEditModal()">&times;</span>
+    <h4 class="news-edit-modal__title">Editar Noticia</h4>
+    <input type="datetime-local" id="editNewsDateTime" class="news-edit-modal__input">
+    <input type="text" id="editNewsTitle" class="news-edit-modal__input" placeholder="Título de la noticia">
+    <textarea id="editNewsContent" class="news-edit-modal__textarea" placeholder="Contenido de la noticia"></textarea>
+    <input type="text" id="editNewsImage" class="news-edit-modal__input" placeholder="URL de la imagen">
+    <button onclick="submitNewsEdit()" class="news-edit-modal__submit">Guardar Cambios</button>
   </div>
 </div>
-<div id="imageEditModal" class="modal">
-  <div class="modal-content">
-    <h4>Edit image url</h4>
-    <input type="text" id="newImageUrlInput" placeholder="Nueva URL de la imagen">
-    <button id="submitImageUrlBtn">send</button>
-    <button id="cancelImageUrlBtn">Cancel</button>
-  </div>
-</div>
+<button id="retrieveNewsButton" onclick="retrieveOneNews()">Recuperar Noticia</button>
+
+{% endif %}
 <script type="text/javascript" src="{{url_for('static', filename='js/newsBlock.js')}}"></script>
 {% endblock %}
