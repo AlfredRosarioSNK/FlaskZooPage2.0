@@ -1,5 +1,5 @@
-var CREATE_PAYMENT_URL = 'http://localhost:5000/payment';
-var EXECUTE_PAYMENT_URL = 'http://localhost:5000/execute';
+let CREATE_PAYMENT_URL = 'http://localhost:5000/payment';
+let EXECUTE_PAYMENT_URL = 'http://localhost:5000/execute';
 paypal.Button.render({
     env: 'sandbox',
     commit: true,
@@ -14,7 +14,7 @@ paypal.Button.render({
             payerID: data.payerID
         }).then(function (res) {
             if (res.success) {
-                var reservationId = new URLSearchParams(window.location.search).get('reservationId');
+                let reservationId = new URLSearchParams(window.location.search).get('reservationId');
                 if (!reservationId) {
                     reservationId = sessionStorage.getItem('reservationId');
                 }

@@ -1,13 +1,13 @@
 document.addEventListener('DOMContentLoaded', function () {
-  var form = document.querySelector('form');
+  let form = document.querySelector('form');
 
   form.addEventListener('submit', function (event) {
     event.preventDefault();
 
-    var adminEmail = document.getElementById('email').value;
-    var adminPassword = document.getElementById('password').value;
+    let adminEmail = document.getElementById('email').value;
+    let adminPassword = document.getElementById('password').value;
 
-    var loginData = {
+    let loginData = {
       adminEmail: adminEmail,
       adminPassword: adminPassword
     };

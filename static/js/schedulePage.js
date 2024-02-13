@@ -1,12 +1,12 @@
-var calendarEl = document.getElementById("calendar");
-var calendar = new FullCalendar.Calendar(calendarEl, {
+let calendarEl = document.getElementById("calendar");
+let calendar = new FullCalendar.Calendar(calendarEl, {
 
     eventClick: function (info) {
 
     },
     eventContent: function (info) {
-        var eventDate = info.event.start;
-        var eventName = info.event.title;
+        let eventDate = info.event.start;
+        let eventName = info.event.title;
 
         return {
             html: '<div class="event-content"><span class="event-title">' + eventName + '</span><br>' + eventDate.toLocaleDateString() + '</div>'
@@ -18,12 +18,12 @@ function loadTickets() {
     fetch('/api/getDates')
         .then(response => response.json())
         .then(data => {
-            var ticketsContainer = document.getElementById("tickets-container");
+            let ticketsContainer = document.getElementById("tickets-container");
             ticketsContainer.innerHTML = "";
             if (data.length > 0) {
                 document.getElementById("tickets-heading").style.display = "block";
                 data.forEach(function (ticket) {
-                    var ticketElement = document.createElement("div");
+                    let ticketElement = document.createElement("div");
                     ticketElement.className = "ticket";
                     ticketElement.innerHTML = `
                   <div class="ticket">
@@ -65,7 +65,7 @@ function attemptChangeDate(ticketId, currentStartDate) {
     document.getElementById("change-date-form-container").style.display = "block";
 
     document.getElementById("submit-new-date").onclick = function () {
-        var newDate = document.getElementById("new-date-entry").value;
+        let newDate = document.getElementById("new-date-entry").value;
         if (newDate) {
             fetch('/api/changeDate', {
                 method: 'POST',
@@ -107,14 +107,14 @@ function reloadCalendarEvents() {
 
 
 document.getElementById("schedule-entry").addEventListener("click", function () {
-    var dateEntry = document.getElementById("date-entry").value;
-    var nameEntry = document.getElementById("name-entry").value;
-    var lastNameEntry = document.getElementById("last-name-entry").value;
-    var numberOfVisitors = document.getElementById("visitorsCuantity").value;
-    var guidedTourConfirmationValue = document.getElementById("guidedTourConfirmation").checked ? 'Tour Included!' : 'Have fun!';
+    let dateEntry = document.getElementById("date-entry").value;
+    let nameEntry = document.getElementById("name-entry").value;
+    let lastNameEntry = document.getElementById("last-name-entry").value;
+    let numberOfVisitors = document.getElementById("visitorsCuantity").value;
+    let guidedTourConfirmationValue = document.getElementById("guidedTourConfirmation").checked ? 'Tour Included!' : 'Have fun!';
 
     if (dateEntry) {
-        var formData = new FormData();
+        let formData = new FormData();
         formData.append("date", dateEntry);
         formData.append("name-entry", nameEntry);
         formData.append("last-name-entry", lastNameEntry);
@@ -178,7 +178,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 });
 document.getElementById("proceed-to-payment").addEventListener("click", function () {
-    var reservationId = sessionStorage.getItem('reservationId');
+    let reservationId = sessionStorage.getItem('reservationId');
     if (reservationId) {
         window.location.href = `/paymentProcessing?reservationId=${reservationId}`;
     } else {
@@ -204,7 +204,7 @@ function cancelReservation(eventId) {
         .catch(error => console.error('Error:', error));
 }
 function confirmPaymentAfterRedirect() {
-    var reservationId = sessionStorage.getItem('reservationId');
+    let reservationId = sessionStorage.getItem('reservationId');
     if (reservationId) {
         fetch('/api/confirmPayment', {
             method: 'POST',
@@ -224,11 +224,11 @@ function confirmPaymentAfterRedirect() {
     }
 }
 document.addEventListener('DOMContentLoaded', function () {
-    var today = new Date();
-    var maxDate = new Date();
+    let today = new Date();
+    let maxDate = new Date();
     maxDate.setDate(today.getDate() + 30);
-    var minDateStr = today.toISOString().split('T')[0];
-    var maxDateStr = maxDate.toISOString().split('T')[0];
+    let minDateStr = today.toISOString().split('T')[0];
+    let maxDateStr = maxDate.toISOString().split('T')[0];
     document.getElementById("date-entry").setAttribute('min', minDateStr);
     document.getElementById("date-entry").setAttribute('max', maxDateStr);
 });
