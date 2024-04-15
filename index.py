@@ -17,6 +17,7 @@ from dotenv import load_dotenv
 from werkzeug.security import generate_password_hash, check_password_hash
 from dateutil import parser
 import paypalrestsdk
+from itsdangerous import URLSafeTimedSerializer, SignatureExpired
 app = Flask(__name__, static_folder='static')
 load_dotenv()
 mail_username = os.getenv('MAIL_USERNAME')
@@ -38,6 +39,7 @@ collectionReptile = db['Reptile']
 collectionBird = db['Birds']
 collectionAmphibian = db['Amphibians']
 collectionMammal = db['Mammals']
+s = URLSafeTimedSerializer('ThisIsASecret!')
 
 paypalrestsdk.configure({
   "mode": "sandbox", 
@@ -132,6 +134,9 @@ def newsPage():
 
 def scrollUpButton():
     return render_template('scrollUpButton.html')
+@app.route("/passwordRecovery")
+def passwordRecovery():
+    return render_template('passwordRecovery.html')
 
 @app.route("/api/mammals")
 def get_mammals():
@@ -747,6 +752,52 @@ def retrieve_one_news():
             return jsonify({'status': 'fail', 'message': 'News could not be retrieved'}), 500
     else:
         return jsonify({'status': 'fail', 'message': 'No hidden news found'}), 404
+
+@app.route('/recover', methods=['POST'])
+def recover():
+    email = request.form['email']
+    user = db.users.find_one({'email': email})
+    if user:
+        token = s.dumps(email, salt='email-recover')
+        link = url_for('reset_password', token=token, _external=True)
+        subject = "Password Recovery"
+        message_body = f"Your link to reset the password is {link}"
+        message = Message(subject, sender='yourEmail@example.com', recipients=[email], body=message_body)
+        mail.send(message)
+        return jsonify({'status': 'success', 'message': 'An email has been sent with instructions to reset your password.'})
+    else:
+        return jsonify({'status': 'fail', 'message': 'Email not found.'})
+
+@app.route('/reset/<token>', methods=['GET', 'POST'])
+def reset_password(token):
+    try:
+        email = s.loads(token, salt='email-recover', max_age=3600)
+    except SignatureExpired:
+        return '<h1>The link has expired!</h1>'
+
+    if request.method == 'GET':
+        return render_template('reset_password.html', token=token)
+
+    elif request.method == 'POST':
+        new_password = request.form['password']
+        db.users.update_one({'email': email}, {'$set': {'password': generate_password_hash(new_password)}})
+        return redirect(url_for('loginPage'))
+
+@app.route('/sendPasswordResetLink', methods=['POST'])
+def send_password_reset_link():
+    email = request.form.get('email')
+    user = db.users.find_one({'email': email})
+    if user:
+        token = s.dumps(email, salt='email-recover')
+        link = url_for('reset_password', token=token, _external=True)
+        msg = Message('Recupera tu contraseña',
+                      sender='tuemail@example.com',
+                      recipients=[email])
+        msg.body = f'your password reset link: {link}'
+        mail.send(msg)
+        return jsonify({'message': 'An email has been sent with instructions to reset your password.'}), 200
+    else:
+        return jsonify({'message': 'Email not found.'}), 404
 
 googleCredentialsPath = os.getenv('GOOGLE_APPLICATION_CREDENTIALS')
 creds = service_account.Credentials.from_service_account_file(

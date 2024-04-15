@@ -5,10 +5,13 @@ document.addEventListener('DOMContentLoaded', function () {
             const userList = document.getElementById('userList');
             users.forEach(user => {
                 const li = document.createElement('li');
+                const roleClass = user.role === 'admin' ? 'role-admin' : 'role-user';
                 li.innerHTML = `
-                  ${user.username} - Actual Rol: ${user.role}
-                  <button onclick="changeRole('${user._id}', '${user.role === 'admin' ? 'user' : 'admin'}')">Change role to ${user.role === 'admin' ? 'user' : 'admin'}</button>
-              `;
+                <span class="role-container">
+                ${user.username} - 
+                Actual Rol: &nbsp; <span class="${roleClass}">${user.role}</span></span>
+                <button class="change-btn--style btn btn-success" onclick="changeRole('${user._id}', '${user.role === 'admin' ? 'user' : 'admin'}')">Change</button>
+              `
                 userList.appendChild(li);
             });
         });

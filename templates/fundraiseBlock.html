@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/homeMediaQueries.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/homeHeaderToContactForm.css') }}">
 {% block fundraise %}
-<div id="linkToFundraise" class="grid-container--fundraiseBlockLinks">
+<div id="linkToFundraise" class="grid-container--fundraiseBlockLinks img-fluid">
   <div class="blockquote-wrapper">
     <div class="blockquote">
       <h1>
@@ -22,7 +22,7 @@
     </a>
   </div>
   <div class="fundraise-boxes--containerDimensions">
-    <a target="_blank" href="{{ url_for('home') }}">
+    <a target="_blank" href="https://www.aza.org/donate-to-aza">
       <img src="{{url_for('static', filename='/images/homePics/donations.jpg')}}" alt="Imagen 2">
       <div class="corner">
         <p>Donations</p>

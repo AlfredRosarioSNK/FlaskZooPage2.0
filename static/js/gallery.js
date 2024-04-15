@@ -23,7 +23,7 @@ function openGallery(id) {
 
     if (activeGalleryId) {
       const activeGallery = document.getElementById(activeGalleryId);
-      activeGallery.classList.remove('active');
+      activeGallery.classList.remove('active'); 
       activeGallery.style.maxHeight = '0';
     }
 

@@ -1,27 +1,52 @@
-body {
-  font-family: Arial, sans-serif;
+body, html{
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-style: normal;
   background-color: #f4f4f4;
   margin: 0;
   padding: 0;
+  height: 100%;
 }
 
 .admin-dashboard {
-  max-width: 1200px;
+  width: 50%;
+  height: 100%;
   margin: 20px auto;
   padding: 20px;
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  font-family: "Poppins", sans-serif;
+}
+
+.admin-dashboard button{
+  border-radius: 50px;
 }
 
 .user-list {
   list-style: none;
   padding: 0;
+  width: 70%;
+  height: 70%;
+  justify-content: center;
+  border-radius: 20px;
+  font-size:20px;
 }
 
 .user-list li {
   padding: 10px;
-  border-bottom: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  font-family: "Poppins", sans-serif;
+}
+
+.user-list li:hover{
+  background-color: #e3e3e1d4;
+  border-radius: 50px;
+  transition: background-color 0.6s ease, transform 0.6s ease;
 }
 
 .user-list li:last-child {
@@ -31,4 +56,36 @@ body {
 .user-list h3 {
   margin: 0;
   color: #333;
+  font-family: "Poppins", sans-serif;
+}
+
+.user-list--container{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  padding-top: 50px;
+}
+
+.logout-button{
+  border-radius: 50px !important;
+}
+
+.change-btn--style{
+  width: 15%;
+}
+
+.role-admin {
+  color: green;
+}
+
+.role-user {
+  color: #BC6C25;
+}
+
+.role-container {
+  /* Asegúrate de que estos estilos se ajusten a tus necesidades */
+  display: inline-flex;
+  align-items: center;
+  margin-right: 8px; /* Ajusta el margen según sea necesario */
 }

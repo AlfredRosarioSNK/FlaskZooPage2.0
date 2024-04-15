@@ -51,7 +51,6 @@ function createNewsCard(newsItem) {
   }
 
   card.innerHTML = `
-    <div class="card-header"></div>
     <div class="image-section">
       <img class="news-image" ${isAdmin ? 'contenteditable="true"' : ''} id="newsImage${newsId}" src="${newsItem.image}">
     </div>
