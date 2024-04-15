@@ -75,9 +75,14 @@ Feel free to tailor this tutorial to your specific needs and project details.
 
 **Note**: ⚠️ Finally you need to make sure your .env file look some like this: SECRET_KEY=<`your secret key`>
 MAIL_USERNAME=<`your email`>
+
 MAIL_PASSWORD=<`your password`>
+
 MONGO_CLIENT=mongodb+srv://GuestUserZooPage:L3aW3xquOqie0SPJ@webzoocluster.eja6fb6.mongodb.net/
+
 GOOGLE_APPLICATION_CREDENTIALS=<`C:/your/aouth/google/key/archive.json`> (more info: https://developers.google.com/identity/protocols/oauth2)
+
 PAYPAL_CLIENT_ID=<`your paypal client ID`>
+
 PAYPAL_CLIENT_SECRET=<`your paypal secret key`>
  
