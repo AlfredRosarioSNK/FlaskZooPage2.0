@@ -20,16 +20,24 @@
   
   <div class="news-edit-modal__content">
     <span class="news-edit-modal__close" onclick="closeEditModal()">&times;</span>
-    <h4 class="news-edit-modal__title">Editar Noticia</h4>
+    <h4 class="news-edit-modal__title">Edit News</h4>
     <input type="datetime-local" id="editNewsDateTime" class="news-edit-modal__input">
-    <input type="text" id="editNewsTitle" class="news-edit-modal__input" placeholder="Título de la noticia">
-    <textarea id="editNewsContent" class="news-edit-modal__textarea" placeholder="Contenido de la noticia"></textarea>
-    <input type="text" id="editNewsImage" class="news-edit-modal__input" placeholder="URL de la imagen">
-    <button onclick="submitNewsEdit()" class="news-edit-modal__submit">Guardar Cambios</button>
+    <input type="text" id="editNewsTitle" class="news-edit-modal__input" placeholder="News Title">
+    <textarea id="editNewsContent" class="news-edit-modal__textarea" placeholder="News Content"></textarea>
+    <div class="image-section text-center">
+      <div class="card mx-auto" style="width: 18rem;">
+        <img class="news-image-thumbnail" id="newsImageThumbnail{{newsId}}" src="">
+      </div>
+      <input type="file" id="editNewsImageInput" style="display: none;" onchange="handleImageUpload()">
+      <button onclick="document.getElementById('editNewsImageInput').click()" class="change-image-button btn btn-success mt-3 mx-auto">Choose Image</button>
+    </div>
+
+    <button onclick="submitNewsEdit()" class="news-edit-modal__submit">Save</button>
   </div>
 </div>
-<button id="retrieveNewsButton" onclick="retrieveOneNews()">Recuperar Noticia</button>
+<button id="retrieveNewsButton" onclick="retrieveOneNews()">Retrieve news</button>
 
 {% endif %}
 <script type="text/javascript" src="{{url_for('static', filename='js/newsBlock.js')}}"></script>
 {% endblock %}
+

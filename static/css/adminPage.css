@@ -34,6 +34,7 @@ body, html{
   justify-content: center;
   border-radius: 20px;
   font-size:20px;
+  margin-top: 30%;
 }
 
 .user-list li {
@@ -71,8 +72,19 @@ body, html{
   border-radius: 50px !important;
 }
 
-.change-btn--style{
-  width: 15%;
+.change-btn--style {
+  min-width: 100px; 
+}
+
+.table {
+  margin-top: 5%; 
+}
+
+.table th,
+.table td {
+  vertical-align: middle; 
+  text-align: center; 
+  white-space: nowrap;
 }
 
 .role-admin {
@@ -84,8 +96,8 @@ body, html{
 }
 
 .role-container {
-  /* Asegúrate de que estos estilos se ajusten a tus necesidades */
+ 
   display: inline-flex;
   align-items: center;
-  margin-right: 8px; /* Ajusta el margen según sea necesario */
+  margin-right: 8px; 
 }

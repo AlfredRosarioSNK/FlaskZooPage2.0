@@ -408,7 +408,7 @@ def cancelDate():
 
         time_elapsed = (datetime.now() - reservation_time).total_seconds()
 
-        if time_elapsed <= 86400:
+        if time_elapsed <= 20:
             datesCollection.delete_one({'_id': ObjectId(event_id)})
             return jsonify({'status': 'success', 'message': 'Reservation successfully canceled.'})
         else:
@@ -798,6 +798,32 @@ def send_password_reset_link():
         return jsonify({'message': 'An email has been sent with instructions to reset your password.'}), 200
     else:
         return jsonify({'message': 'Email not found.'}), 404
+@app.route('/api/news/image/<news_id>', methods=['POST'])
+def uploadNewsImage(news_id):
+    if 'image' not in request.files:
+        return jsonify({'error': 'No image part'}), 400
+
+    file = request.files['image']
+    if file.filename == '':
+        return jsonify({'error': 'No selected file'}), 400
+
+    if file:
+        blob = bucket.blob(f'news_images/{news_id}/{file.filename}')
+        blob.upload_from_string(
+            file.read(),
+            content_type=file.content_type
+        )
+        public_url = blob.public_url
+        
+        updateImageInNews(news_id, public_url)  
+        
+        return jsonify({'imageUrl': public_url}), 200
+    
+def updateImageInNews(news_id, image_url):
+    newsCollection.update_one(
+        {'_id': ObjectId(news_id)},
+        {'$set': {'image': image_url}}
+    )
 
 googleCredentialsPath = os.getenv('GOOGLE_APPLICATION_CREDENTIALS')
 creds = service_account.Credentials.from_service_account_file(

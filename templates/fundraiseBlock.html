@@ -1,41 +1,72 @@
-<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/homeMediaQueries.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/homeHeaderToContactForm.css') }}">
-{% block fundraise %}
-<div id="linkToFundraise" class="grid-container--fundraiseBlockLinks img-fluid">
-  <div class="blockquote-wrapper">
-    <div class="blockquote">
-      <h1>
-        <span style="color: #DDA15E;">greatness of a nation and its</span> <span style="color: #606C38;"> moral progress
-          can be judged </span> <span style="color: #DDA15E;">by the way its animals are <span
-            style="color: #606C38;">treated</span></span>
-      </h1>
-      <h4>&mdash;Mahatma Gandhi</h4>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/homeMediaQueries.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/homeHeaderToContactForm.css') }}">
+    <title>Zoo Fundraise</title>
+    <style>
+        .card-img-overlay {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    {% block fundraise %}
+    <div class="container mt-5">
+        <div class="row align-items-start">
+            <div class="col-12 col-md-6 mb-4">
+                <div id="linkToFundraise" class="mb-4">
+                    <div class="blockquote-wrapper">
+                        <div class="blockquote">
+                            <h1>
+                                <span style="color: #DDA15E;">greatness of a nation and its</span> 
+                                <span style="color: #606C38;">moral progress can be judged </span> 
+                                <span style="color: #DDA15E;">by the way its animals are 
+                                    <span style="color: #606C38;">treated</span>
+                                </span>
+                            </h1>
+                            <h4>&mdash;Mahatma Gandhi</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <a target="_blank" href="https://www.chesterzoo.org/what-you-can-do/fundraising/">
+                      <img src="../static/images/homePics/fundRaising.webp" class="card-img-top" alt="Beautiful Image">
+                    <div class="card-img-overlay d-flex align-items-end">
+                        <h5 class="card-title">Fundraise</h5>
+                    </div>
+                  </a>
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="card mb-4">
+                  <a target="_blank" href="https://www.aza.org/donate-to-aza">
+                    <img src="../static/images/homePics/saveThem.jpg" class="card-img-top" alt="Beautiful Image">
+                    <div class="card-img-overlay d-flex align-items-end">
+                        <h5 class="card-title">Save Them</h5>
+                    </div>
+                  </a>
+                </div>
+                <div class="card">
+                  <a target="_blank" href="https://www.staf.org/">
+                    <img src="../static/images/homePics/donations.jpg" class="card-img-top" alt="Beautiful Image">
+                    <div class="card-img-overlay d-flex align-items-end">
+                        <h5 class="card-title">Donations</h5>
+                    </div>
+                  </a>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-  <div class="fundraise-boxes--containerDimensions" id="fundraise--individual">
-    <a target="_blank" href="https://www.chesterzoo.org/what-you-can-do/fundraising/">
-      <img src="{{url_for('static', filename='/images/homePics/fundRaising.webp')}}" alt="Imagen 1">
-      <div class="corner">
-        <p>Fundraise</p>
-      </div>
-    </a>
-  </div>
-  <div class="fundraise-boxes--containerDimensions">
-    <a target="_blank" href="https://www.aza.org/donate-to-aza">
-      <img src="{{url_for('static', filename='/images/homePics/donations.jpg')}}" alt="Imagen 2">
-      <div class="corner">
-        <p>Donations</p>
-      </div>
-    </a>
-  </div>
-  <div class="fundraise-boxes--containerDimensions">
-    <a target="_blank" href="https://www.staf.org/">
-      <img src="{{url_for('static', filename='/images/homePics/saveThem.jpg')}}" alt="Imagen 3">
-      <div class="corner">
-        <p>Save Them</p>
-      </div>
-    </a>
-  </div>
-</div>
-{% endblock %}
+    {% endblock %}
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

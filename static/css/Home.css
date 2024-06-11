@@ -277,13 +277,18 @@ html {
 
 .card-footer {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   padding: 10px;
-  border-top: none; 
-  border-bottom: none; 
-  background-color: transparent; 
+  border-top: none;
+  border-bottom: none;
+  background-color: transparent;
 }
+
+.card-footer i{
+ margin-left: 2%;
+}
+
 .card:hover {
   transform: scale(1.01);
 }
@@ -371,8 +376,12 @@ html {
 
 .blog-section .section-content .cards .card img {
   width: 100%;
-  height: 500px; /* Define una altura fija para todas las imágenes */
-  object-fit: cover; /* Asegura que la imagen cubra el área sin perder proporciones */
+  height: 500px; 
+  object-fit: cover; 
+  display: block;
+  max-width: 100%;
+  max-height: 75%;
+  
 }
 
 .blog-section .section-content .cards .card .article {
@@ -593,7 +602,6 @@ html {
 .blockquote-wrapper {
   display: flex;
   padding: 0 20px;
-  margin-left: 30%;
 }
 
 .blockquote {
@@ -659,57 +667,10 @@ html {
   margin-left: -12px;
 }
 
-.fundraise-boxes--containerDimensions {
-  position: relative;
-  width: 600px;
-  height: 300px;
-  overflow: hidden;
-  margin-left: 30%;
-}
+
 
 #fundraise--individual {
   transform: translate(0%, 40%);
-}
-
-.fundraise-boxes--containerDimensions img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.fundraise-boxes--containerDimensions::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 120%;
-  height: 100%;
-  background: #61A239;
-  transform: rotate(45deg);
-  transform-origin: top left;
-}
-
-.fundraise-boxes--containerDimensions p {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 25%;
-  height: 150%;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-.grid-container--fundraiseBlockLinks {
-  display: grid;
-  grid-template-columns: 5fr 5fr;
-  grid-template-rows: 0.3fr 0.3fr;
-  justify-items: center;
-  grid-row-gap: 3%;
-  grid-column-gap: 0%;
-  margin-right: 10%;
 }
 
 #splash-screen {
